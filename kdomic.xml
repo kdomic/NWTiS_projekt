@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="defaultName" default="copyWar" basedir=".">    
+    <property name="tomcat" value="D:\Apache-Tomcat-7.0.41" />
+    <property name="tomcat.deployment" value="${tomcat}/webapps"/>
+    <property name="tomcat.bin" value="${tomcat}/bin"/>
+    <property name="base" value="." />
+    <property name="source" value="${base}/src" />
+    
+    <target name="copyWar">
+        <copy file="${base}/dist/kdomic_aplikacija_1.war" todir="${tomcat.deployment}" />
+        <antcall target="startTomcat" />
+    </target>
+
+    <target name="startTomcat">
+        <exec executable="${tomcat.bin}\startup.bat">
+            <env key="CATALINA_BASE" value="D:\Apache-Tomcat-7.0.41"/>
+            <env key="CATALINA_HOME" value="D:\Apache-Tomcat-7.0.41"/>
+            <env key="CATALINA_TMPDIR" value="D:\Apache-Tomcat-7.0.41\temp"/>
+            <env key="JRE_HOME" value="C:\Program Files\Java\jdk1.7.0_51"/>
+            <env key="CLASSPATH" value="D:\Apache-Tomcat-7.0.41\bin\bootstrap.jar;D:\Apache-Tomcat-7.0.41\bin\tomcat-juli.jar"/>
+        </exec>
+    </target>
+    <target name="stopTomcat">
+        <exec executable="${tomcat.bin}\shutdown.bat">
+            <env key="CATALINA_BASE" value="D:\Apache-Tomcat-7.0.41"/>
+            <env key="CATALINA_HOME" value="D:\Apache-Tomcat-7.0.41"/>
+            <env key="CATALINA_TMPDIR" value="D:\Apache-Tomcat-7.0.41\temp"/>
+            <env key="JRE_HOME" value="C:\Program Files\Java\jdk1.7.0_51"/>
+            <env key="CLASSPATH" value="D:\Apache-Tomcat-7.0.41\bin\bootstrap.jar;D:\Apache-Tomcat-7.0.41\bin\tomcat-juli.jar"/>
+        </exec>
+    </target>
+</project>
