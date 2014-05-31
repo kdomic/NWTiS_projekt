@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,18 +49,22 @@ public class WeatherBugThread extends TimerTask {
 
             ResultSet resultSet = statement.executeQuery("SELECT * FROM tblAddress");
             while (resultSet.next()) {
-                WeatherBugKlijent wbk = new WeatherBugKlijent();
-                WeatherData wd = wbk.getRealTimeWeather(resultSet.getString("latitude"), resultSet.getString("longitude"));
-                Database.insert(wd.getSql(resultSet.getString("idAddress")));
-                System.out.println(resultSet.getString("address"));
-                System.out.println("Temp: " + wd.getTemperature());
+                try {
+                    WeatherBugKlijent wbk = new WeatherBugKlijent();
+                    WeatherData wd = wbk.getRealTimeWeather(resultSet.getString("latitude"), resultSet.getString("longitude"));
+                    Database.insert(wd.getSql(resultSet.getString("idAddress")));
+                    System.out.println(resultSet.getString("address"));
+                    System.out.println("Temp: " + wd.getTemperature());
+                } catch (Exception ex) {
+                    Logger.getLogger(WeatherBugThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(WeatherBugThread.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
 }

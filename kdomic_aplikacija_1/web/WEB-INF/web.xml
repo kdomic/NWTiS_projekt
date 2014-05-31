@@ -2,7 +2,7 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <context-param>
         <param-name>WeatherBugThreadTime</param-name>
-        <param-value>0</param-value>
+        <param-value>3600</param-value>
     </context-param>
     <context-param>
         <param-name>DatabaseConfigFile</param-name>
@@ -52,6 +52,14 @@
         <param-name>emailSubject</param-name>
         <param-value>HWTiS Stetistika</param-value>
     </context-param>
+    <filter>
+        <filter-name>ApplicationFilter</filter-name>
+        <filter-class>org.foi.nwtis.kdomic.filters.ApplicationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ApplicationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
         <listener-class>org.foi.nwtis.kdomic.listeners.ApplicationListener</listener-class>
