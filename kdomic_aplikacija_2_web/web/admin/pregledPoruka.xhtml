@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./adminTemplate.xhtml">
+
+            <ui:define name="top">
+                <h:link value="#{i18n.admin_messHome}" outcome="adminIndex" /> / #{i18n.admin_messView}
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form id="form">
+                    <p:selectOneListbox value="#{pregledPoruka.selectedFolder}" style="size:1;width: 200px;" >
+                        <f:selectItems value="#{pregledPoruka.folders}" />  
+                        <p:ajax event="change" update=":form:maintable" listener="#{pregledPoruka.showMessages()}"/>
+                    </p:selectOneListbox>
+
+                    <p:layout style="min-width:400px;min-height:800px;">
+                        <p:layoutUnit position="north" resizable="true" size="250" minSize="40" >
+                            <p:dataTable id="maintable"
+                                         var="m" value="#{pregledPoruka.messages}" rowKey="#{m.id}"
+                                         paginator="true" rows="5" paginatorPosition="top" sortBy="#{m.vrijeme}"
+                                         selection="#{pregledPoruka.selectedMessage}" selectionMode="single">
+
+                                <p:ajax event="rowSelect" update=":form:show" />
+
+                                <p:column headerText="#{i18n.admin_messId}">
+                                    <h:outputText value="#{m.id}" />
+                                </p:column>
+
+                                <p:column headerText="#{i18n.admin_messSender}">
+                                    <h:outputText value="#{m.salje}" />
+                                </p:column>
+
+                                <p:column headerText="#{i18n.admin_messSubject}">
+                                    <h:outputText value="#{m.predmet}" />
+                                </p:column>
+
+                                <p:column headerText="#{i18n.admin_messTime}" sortBy="#{m.vrijeme}">
+                                    <h:outputText value="#{m.vrijeme}" />
+                                </p:column>
+
+                                <p:column headerText="#{i18n.admin_messSize}">
+                                    <h:outputText value="#{m.velicina}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">#{i18n.admin_messDelete}</f:facet>
+                                    <p:commandButton icon="ui-icon-close" title="Obrisi zapis" actionListener="#{pregledPoruka.deleteMessage(m)}" update="maintable" />
+                                </p:column> 
+
+                            </p:dataTable>
+                        </p:layoutUnit>
+
+                        <p:layoutUnit position="center" size="250">
+                            <h:panelGrid columns="2" id="show">
+                                <h:outputLabel value="#{pregledPoruka.selectedMessage.sadrzaj}"/>
+                            </h:panelGrid>
+                        </p:layoutUnit>
+                    </p:layout>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

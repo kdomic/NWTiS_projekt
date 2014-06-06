@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+    <body>
+
+        <ui:composition template="./../template.xhtml">
+
+            <ui:define name="top">#{i18n.portfolio_addTitle}</ui:define>
+
+            <ui:define name="left">
+                <h:link value="#{i18n.porfrolioAddLinkHome}" outcome="portfelj" /> <br/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="locationsForm">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="name" value="#{i18n.portfolio_addPortfolioName}" />
+                        <p:inputText id="name" value="#{dodajPortfelj.portfolioName}" size="50" />
+                    </h:panelGrid>
+
+
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:selectOneListbox id="availableLocations" size="7" value="#{dodajPortfelj.selectedAvailableLocation}">
+                            <f:selectItems value="#{dodajPortfelj.availableLocations}" />
+                        </h:selectOneListbox>
+                        <h:panelGroup layout="block">
+                            <h:commandButton value="#{i18n.portfolio_addBtnAdd}" action="#{dodajPortfelj.addAddress()}" > 
+                                <f:ajax execute="availableLocations" render="availableLocations selectedLocations"></f:ajax>
+                            </h:commandButton>
+                            <h:commandButton value="#{i18n.portfolio_addBtnRemove}" action="#{dodajPortfelj.removeAddress()}" > 
+                                <f:ajax execute="selectedLocations" render="availableLocations selectedLocations"></f:ajax>
+                            </h:commandButton>
+                        </h:panelGroup>
+                        <h:selectOneListbox id="selectedLocations" size="7" value="#{dodajPortfelj.selectedSelectedLocations}">
+                            <f:selectItems value="#{dodajPortfelj.selectedLocations}" />
+                        </h:selectOneListbox>
+                    </h:panelGrid>
+
+                    <h:panelGroup layout="block">
+                        <h:outputLabel value="#{i18n.portfolio_addAddNewAddress}" />
+                        <h:inputText id="newAddress" value="#{dodajPortfelj.newLocation}" />
+                        <h:commandButton value="#{i18n.portfolio_addBtnAdd}" action="#{dodajPortfelj.addNewAddress()}" >
+                            <f:ajax execute="newAddress" render="selectedLocations newAddress"></f:ajax>
+                        </h:commandButton>
+                    </h:panelGroup>
+
+
+
+                    <br/>
+                    <h:panelGroup layout="block">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="false" />
+                        <h:commandButton value="#{i18n.portfolio_addSave}" action="#{dodajPortfelj.saveForm()}" > 
+                            <f:ajax execute="@all" render="messages"></f:ajax>
+                        </h:commandButton>
+                    </h:panelGroup>
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

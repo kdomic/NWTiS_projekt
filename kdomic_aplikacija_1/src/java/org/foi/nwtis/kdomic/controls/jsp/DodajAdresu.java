@@ -35,7 +35,7 @@ public class DodajAdresu extends HttpServlet {
         String message;
         if (request.getParameter("address") != null) {
             GoogleMapsKlijent gmk = new GoogleMapsKlijent();
-            Location l = gmk.getGeoLocation(request.getParameter("address"));
+            Location l = gmk.getGeoLocation(replacer(request.getParameter("address")));
             if (l != null) {
                 if (Database.insertAddress(l.getAdress(), l.getLatitude(), l.getLongitude()) != null) {
                     message = "Zapis dodan: " + l.getAdress();
@@ -51,6 +51,20 @@ public class DodajAdresu extends HttpServlet {
 
         request.setAttribute("message", message);
         request.getRequestDispatcher("dodajAdresu.jsp").forward(request, response);
+    }
+
+    private String replacer(String a) {
+        a = a.replaceAll("Ä", "č");
+        a = a.replaceAll("Ä", "ć");
+        a = a.replaceAll("Å¾", "ž");
+        a = a.replaceAll("Å¡", "š");
+        a = a.replaceAll("Ä", "đ");
+        a = a.replaceAll("Ä", "Č");
+        a = a.replaceAll("Ä", "Ć");
+        a = a.replaceAll("Å½", "Ž");
+        a = a.replaceAll("Å ", "Š");
+        a = a.replaceAll("Ä", "Đ");
+        return a;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

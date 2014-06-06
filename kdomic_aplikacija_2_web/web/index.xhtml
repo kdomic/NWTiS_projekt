@@ -1,14 +1,34 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-        <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
-    </h:body>
-</html>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <body>
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="top">#{i18n.index_welcomeMessage}</ui:define>
+
+            <ui:define name="left">
+                <h:link value="#{i18n.index_administrator}" outcome="admin" /> <br/>
+                <h:link value="#{i18n.index_public}" outcome="public" /> <br/>
+                <h:link value="#{i18n.index_prijava}" outcome="login" /> <br/>
+                <h:link value="#{i18n.index_register}" outcome="register" /> <br/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>#{i18n.index_chooseLanguage}</h1>
+                <p>
+                    <h:form>
+                        <h:selectOneRadio value="#{localization.selectedLanguage}">
+                            <f:selectItems value="#{localization.supportedLanguage}" />
+                        </h:selectOneRadio>
+                        <h:commandButton value="#{i18n.index_changeLanguage}" action="#{localization.selectLanguage()}" />
+                    </h:form>
+                </p>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

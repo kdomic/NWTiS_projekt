@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../template.xhtml">
+
+            <ui:define name="top">#{i18n.register_title}</ui:define>
+
+            <ui:define name="left">
+                <h:link value="#{i18n.register_home}" outcome="home" /> <br/>
+            </ui:define>
+
+            <ui:define name="content">
+                
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="false" />
+                
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        
+                        <p:outputLabel for="firstName" value="#{i18n.register_firstName}:" />
+                        <p:inputText id="firstName" value="#{registracija.firstName}" size="50" />
+
+                        <p:outputLabel for="lastName" value="#{i18n.register_lastName}:" />
+                        <p:inputText id="lastName" value="#{registracija.lastName}" size="50" />
+                        
+                        <p:outputLabel for="username" value="#{i18n.register_username}:" />
+                        <p:inputText id="username" value="#{registracija.username}" size="50" />
+
+                        <p:outputLabel for="password" value="#{i18n.register_password}:" />
+                        <p:password id="password" value="#{registracija.password}" size="50" />
+                        
+                        <p:outputLabel for="passwordCheck" value="#{i18n.register_password2}:" />
+                        <p:password id="passwordCheck" value="#{registracija.passwordCheck}" size="50" />
+                        
+                        <p:commandButton value="#{i18n.register_btn}" action="#{registracija.doRegister()}" ajax="false"/>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

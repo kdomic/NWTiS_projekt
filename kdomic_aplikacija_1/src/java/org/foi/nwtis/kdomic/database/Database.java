@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +15,7 @@ import org.foi.nwtis.kdomic.konfiguracije.bp.BP_Konfiguracija;
 import org.foi.nwtis.kdomic.data.Location;
 import org.foi.nwtis.kdomic.data.Logs;
 import org.foi.nwtis.kdomic.data.WeatherData;
+import org.foi.nwtis.kdomic.data.WeatherDataSmall;
 import org.foi.nwtis.kdomic.listeners.ApplicationListener;
 
 /**
@@ -56,7 +56,7 @@ public class Database {
             Class.forName(bp.getDriver_database());
             Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
             Statement statement = connect.createStatement();
-            ResultSet resultSet = resultSet = statement.executeQuery("SELECT * FROM tbladdress");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM tbladdress");
 
             while (resultSet.next()) {
                 list.add(new Location(resultSet.getString("latitude"), resultSet.getString("longitude"), resultSet.getString("address"), resultSet.getString("idAddress")));
@@ -77,7 +77,7 @@ public class Database {
             Class.forName(bp.getDriver_database());
             Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
             Statement statement = connect.createStatement();
-            ResultSet resultSet = resultSet = statement.executeQuery("SELECT * FROM tbladdress WHERE idAddress=" + id);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM tbladdress WHERE idAddress=" + id);
             if (resultSet.next()) {
                 l = new Location(resultSet.getString("latitude"), resultSet.getString("longitude"), resultSet.getString("address"), resultSet.getString("idAddress"));
             }
@@ -95,9 +95,9 @@ public class Database {
         try {
             BP_Konfiguracija bp = (BP_Konfiguracija) ApplicationListener.bp;
             Class.forName(bp.getDriver_database());
-            Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
+            Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database() + "?useUnicode=true&characterEncoding=utf-8", bp.getUser_username(), bp.getUser_password());
             Statement statement = connect.createStatement();
-            ResultSet resultSet = resultSet = statement.executeQuery("SELECT * FROM tbladdress WHERE address='" + adresa + "'");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM tbladdress WHERE address='" + adresa + "'");
             if (resultSet.next()) {
                 l = new Location(resultSet.getString("latitude"), resultSet.getString("longitude"), resultSet.getString("address"), resultSet.getString("idAddress"));
             }
@@ -118,7 +118,7 @@ public class Database {
             Class.forName(bp.getDriver_database());
             Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
             Statement statement = connect.createStatement();
-            ResultSet resultSet = resultSet = statement.executeQuery("SELECT * FROM tbladdress WHERE address=\'" + adresa + "\'");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM tbladdress WHERE address=\'" + adresa + "\'");
             if (resultSet.next()) {
                 id = resultSet.getString("idAddress");
             }
@@ -220,6 +220,34 @@ public class Database {
         return list;
     }
 
+    public static ArrayList<WeatherDataSmall> getRecentGeoMeteo(String startDate, String endDate) {
+        String sql = "";
+        sql += "SELECT * FROM tbladdress AS a";
+        sql += " JOIN tblmeteodata AS m ON m.adresa=a.idAddress";
+        sql += " WHERE (vrijemePreuzimanja BETWEEN '" + startDate + "' AND '" + endDate + "')";
+        sql += " AND NOT EXISTS(SELECT * FROM tblmeteodata AS m2 WHERE (vrijemePreuzimanja BETWEEN '" + startDate + "' AND '" + endDate + "') AND m2.adresa=a.idAddress AND m2.vrijemePreuzimanja>m.vrijemePreuzimanja)";
+        sql += " ORDER BY a.idAddress ASC ";
+        ArrayList<WeatherDataSmall> list = null;
+        try {
+            BP_Konfiguracija bp = (BP_Konfiguracija) ApplicationListener.bp;
+            Class.forName(bp.getDriver_database());
+            Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
+            Statement statement = connect.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                if (list == null) {
+                    list = new ArrayList<>();
+                }
+                list.add(new WeatherDataSmall(resultSet));
+            }
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
     public static String makeMeteoSqlWIthFilter(String page, String maxPerPage, Boolean dateCheck, String dateStart, String dateEnd, Boolean addressCheck, String addressId) {
         String sql = "SELECT * FROM tblmeteodata";
         if (addressCheck) {
@@ -247,7 +275,7 @@ public class Database {
         }
         return sql;
     }
-    
+
     public static ArrayList<WeatherData> getMeteoAllByFilter(String page, String maxPerPage, Boolean dateCheck, String dateStart, String dateEnd, Boolean addressCheck, String addressId) {
         String sql = Database.makeMeteoSqlWIthFilter(page, maxPerPage, dateCheck, dateStart, dateEnd, addressCheck, addressId);
         System.out.println(sql);
@@ -271,7 +299,7 @@ public class Database {
         }
         return list;
     }
-    
+
     public static Integer countAllMeteoByFilter(String page, String maxPerPage, Boolean dateCheck, String dateStart, String dateEnd, Boolean addressCheck, String addressId) {
         String sql = Database.makeMeteoSqlWIthFilter(page, "svi", dateCheck, dateStart, dateEnd, addressCheck, addressId);
         sql = sql.replace("*", "count(*) AS num");
@@ -283,7 +311,7 @@ public class Database {
             Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
             Statement statement = connect.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 num = Integer.parseInt(resultSet.getString("num"));
             }
         } catch (SQLException ex) {
@@ -293,7 +321,6 @@ public class Database {
         }
         return num;
     }
-    
 
     public static String authenticateUser(String username, String password) {
         try {

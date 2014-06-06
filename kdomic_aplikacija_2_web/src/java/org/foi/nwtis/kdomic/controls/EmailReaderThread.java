@@ -126,11 +126,3 @@ public class EmailReaderThread extends TimerTask {
     }
 
 }
-/*
-
- try {
- this.sendJMSMessageToNWTiS_kdomic_1(new CommunicationMessage(new Date(), new Date(), Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE));
- } catch (JMSException | NamingException ex) {
- Logger.getLogger(EmailReaderThread.class.getName()).log(Level.SEVERE, null, ex);
- }
- */

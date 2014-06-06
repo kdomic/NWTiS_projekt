@@ -1,4 +1,3 @@
-
 package org.foi.nwtis.kdomic.server;
 
 import java.util.ArrayList;
@@ -28,9 +27,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import org.foi.nwtis.kdomic.data.Poruka;
 
-
 /**
  * Klasa za obradu email poruka: SLANJE i PRIMANJE
+ *
  * @author Krunoslav
  */
 public class Email {
@@ -48,10 +47,11 @@ public class Email {
 
     /**
      * Metoda za uspostavljanje veze s serverom
+     *
      * @param email_poslusitelj
      * @param korisnicko_ime
      * @param lozinka
-     * @return 
+     * @return
      */
     public Boolean uspostaviVezu(String email_poslusitelj, String korisnicko_ime, String lozinka) {
         this.email_poslusitelj = email_poslusitelj;
@@ -74,7 +74,8 @@ public class Email {
 
     /**
      * Preuzimanje mapa s poslužitalja
-     * @return 
+     *
+     * @return
      */
     public Map<String, String> preuzmiMape() {
         try {
@@ -92,12 +93,13 @@ public class Email {
 
     /**
      * Slanje poruke
+     *
      * @param prima
      * @param predmet
      * @param poruka
      * @param tip
      * @param privitak
-     * @return 
+     * @return
      */
     public Boolean posaljiPoruku(String prima, String predmet, String poruka, String tip, String privitak, String port, String izlazniFolder) {
 
@@ -152,9 +154,10 @@ public class Email {
 
     /**
      * Preuzimanje svijh poruka za danu mapu
+     *
      * @param odabranaMapa
      * @return
-     * @throws MessagingException 
+     * @throws MessagingException
      */
     public List<Poruka> preuzmiPoruke(String odabranaMapa) throws MessagingException {
         Message[] messages;
@@ -173,11 +176,12 @@ public class Email {
 
     /**
      * Preuzimanje određene poruke iz određene mape
+     *
      * @param findId
      * @param odabranaMapa
      * @param mapaZaPrivitke
      * @return
-     * @throws MessagingException 
+     * @throws MessagingException
      */
     public Poruka preuzmiPoruku(String findId, String odabranaMapa, String mapaZaPrivitke) throws MessagingException {
         Message[] messages;
@@ -197,7 +201,8 @@ public class Email {
 
     /**
      * Provjerava i kreira folder za poruke na serveru
-     * @param imeFoldera 
+     *
+     * @param imeFoldera
      */
     public void kreirajFolder(String imeFoldera) {
         try {
@@ -212,9 +217,10 @@ public class Email {
 
     /**
      * Premještanje poruke iz jednog u drugi direktorij
+     *
      * @param src
      * @param dest
-     * @param m 
+     * @param m
      */
     public void premjestiPoruku(String src, String dest, ArrayList<Message> m) {
         if (m.size() <= 0) {
@@ -230,17 +236,21 @@ public class Email {
             this.kreirajFolder(dest);
             Folder dFolder = store.getFolder(dest);
             sFolder.copyMessages(msg, dFolder);
-            sFolder.setFlags(msg, new Flags(Flags.Flag.DELETED), true);            
+            sFolder.setFlags(msg, new Flags(Flags.Flag.DELETED), true);
             sFolder.close(true);
-            
-            /**
-             * BUG:
-             * Nakon što se poruka priemjesti ona je vidljeiva u drugom folderu i mogu se pročitati svi njezini elemnti.
-             * Ali ukoliko se želi otvoriti detaljan prikaz, program to neće dozvoliti.
-             * PRETPOSTAVKA: Flags.Flag.DELETED radi probleme
-             * -ukoliko se  linija 234 zakomentira, program (u našem slučaju dretva) će poruku prebaciti u novi folder ali neće obrisati staru, u tom slučaju obje poruke se mogu otvoriti
-             */
+        } catch (MessagingException ex) {
+            Logger.getLogger(Email.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
+    public void deleteMessage(Message message, String folder) {
+        try {
+            Message[] msg = new Message[1];
+            msg[0] = message;
+            Folder sFolder = store.getFolder(folder);
+            sFolder.open(Folder.READ_WRITE);
+            sFolder.setFlags(msg, new Flags(Flags.Flag.DELETED), true);
+            sFolder.close(true);
         } catch (MessagingException ex) {
             Logger.getLogger(Email.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./adminTemplate.xhtml">
+
+            <ui:define name="top">
+                <h:link value="#{i18n.admin_btnAdminHome}" outcome="adminIndex" /> / #{i18n.admin_postTitle}
+            </ui:define>
+
+            <ui:define name="left"> </ui:define>
+
+            <ui:define name="content">
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="false" />
+                
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="host" value="#{i18n.admin_emailHost}:" />
+                        <p:inputText id="host" value="#{emailPostavke.emailServer}" size="50" />
+
+                        <p:outputLabel for="email" value="#{i18n.admin_emailEmail}:" />
+                        <p:inputText id="email" value="#{emailPostavke.email}" size="50" />
+
+                        <p:outputLabel for="passwd" value="#{i18n.admin_emailPassword}:" />
+                        <p:inputText id="passwd" value="#{emailPostavke.password}" size="50" />
+                        <p:commandButton value="#{i18n.admin_emailBtnRead}" action="#{emailPostavke.connect()}" ajax="false"/>
+                    </h:panelGrid>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

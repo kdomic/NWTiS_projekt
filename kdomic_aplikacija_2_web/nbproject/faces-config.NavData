@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="portfelj/registracija.xhtml" x="393" y="259" zoom="true"/>
+        <Node id="admin/pregledPoruka.xhtml" x="149" y="472" zoom="true"/>
+        <Node id="admin/emailPostavke.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="portfelj/prijava.xhtml" x="855" y="531" zoom="true"/>
+        <Node id="index.xhtml" x="644" y="716" zoom="true"/>
+        <Node id="javniDio.xhtml" x="668" y="256" zoom="true"/>
+        <Node id="template.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="admin/adminTemplate.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="portfelj/dodajPortfelj.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="portfelj/odjava.xhtml" x="910" y="220" zoom="true"/>
+        <Node id="portfelj/index.xhtml" x="913" y="319" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>
