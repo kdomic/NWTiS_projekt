@@ -2,6 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/GitHub/NWTiS_projekt/kdomic_aplikacija_1/src/java/org/foi/nwtis/kdomic/server/SocketServer.java</file>
+            <file>file:/C:/GitHub/NWTiS_projekt/kdomic_aplikacija_1/src/java/org/foi/nwtis/kdomic/listeners/ApplicationListener.java</file>
+        </group>
     </open-files>
 </project-private>

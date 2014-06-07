@@ -63,7 +63,7 @@ public class SocketServerClient extends Thread {
             }
 
             Matcher m = Pattern.compile("^USER ([^\\s]+); GET ([\\d\\D\\s\\S\\w\\W]*);$").matcher(command);
-            if (m.matches()) { //todo
+            if (m.matches()) { 
                 response = get(m.group(2));
             } else {
                 m = Pattern.compile("^USER ([^\\s]+); PASSWD ([^\\s]+); ([^\\s]+)[\\d\\D\\s\\S\\w\\W]*").matcher(command);

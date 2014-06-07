@@ -61,7 +61,8 @@ public class ApplicationListener implements ServletContextListener {
             Calendar date = Calendar.getInstance();
             timer.schedule(new WeatherBugThread(), date.getTime(), 1000 * threadTime);
         }
-        //serverSocket = new SocketServer();
+        serverSocket = new SocketServer();
+        serverSocket.start();
     }
 
     @Override
@@ -70,7 +71,7 @@ public class ApplicationListener implements ServletContextListener {
         if (timer != null) {
             timer.cancel();
         }
-        //serverSocket.close();
+        serverSocket.interrupt();
     }
 
 }

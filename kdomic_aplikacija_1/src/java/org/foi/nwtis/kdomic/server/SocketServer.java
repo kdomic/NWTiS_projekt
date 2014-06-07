@@ -16,15 +16,28 @@ import org.foi.nwtis.kdomic.listeners.ApplicationListener;
  *
  * @author Krunoslav
  */
-public class SocketServer {
+public class SocketServer extends Thread {
 
     private ServerSocket server;
+    private Socket s;
+    private Boolean acceptSocket;
 
-    public SocketServer() {
+    @Override
+    public synchronized void start() {
+        System.out.println("START");
+        acceptSocket = true;
+        super.start();
+    }
+
+    @Override
+    public void run() {
+        System.out.println("RUN");
+        int i = 1;
         try {
             server = new ServerSocket(Integer.parseInt(ApplicationListener.context.getInitParameter("ServerSocketPort")), 1);
-            while (true) {
-                Socket s = server.accept();
+            while (acceptSocket) {
+                System.out.println("WAITING FOR SOCKET ......["+(i++)+"]");
+                s = server.accept();
                 SocketServerClient ssc = new SocketServerClient(s);
                 ssc.start();
             }
@@ -37,12 +50,24 @@ public class SocketServer {
             Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void close(){
+
+    @Override
+    public void interrupt() {
+        System.out.println("INTERUPT");
+        acceptSocket = false;
         try {
-            server.close();
+            if (s != null) {
+                s.close();
+            }
+            if (server != null) {
+                server.close();
+
+            }
         } catch (IOException ex) {
-            Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SocketServer.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
+        super.interrupt();
     }
+
 }
