@@ -31,8 +31,8 @@ public class ApplicationListener implements ServletContextListener {
         Integer port = Integer.parseInt(sce.getServletContext().getInitParameter("port"));
         Integer numberOfAttempts = Integer.parseInt(sce.getServletContext().getInitParameter("numberOfAttempts"));
         Integer pauseTime = Integer.parseInt(sce.getServletContext().getInitParameter("pauseTime"));
-        String fileNameAddress = sce.getServletContext().getInitParameter("fileNameAddress");
-        String fileNameEmail = sce.getServletContext().getInitParameter("fileNameEmail");
+        String fileNameAddress = sce.getServletContext().getRealPath("WEB-INF") + java.io.File.separator + sce.getServletContext().getInitParameter("fileNameAddress");
+        String fileNameEmail = sce.getServletContext().getRealPath("WEB-INF") + java.io.File.separator + sce.getServletContext().getInitParameter("fileNameEmail");
         messageQueueBridge.init(adminUsername, adminPassword, host, port, numberOfAttempts, pauseTime,fileNameAddress,fileNameEmail);
     }
 
