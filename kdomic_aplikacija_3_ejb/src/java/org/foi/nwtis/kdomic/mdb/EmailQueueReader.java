@@ -13,7 +13,8 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import org.foi.nwtis.kdomic.data.CommunicationMessage;
+import org.foi.nwtis.kdomic.beans.MessageQueue;
+import org.foi.nwtis.kdomic.data.CommunicationMessageEmail;
 
 /**
  *
@@ -32,7 +33,8 @@ public class EmailQueueReader implements MessageListener {
     public void onMessage(Message message) {
         try {
             ObjectMessage om = (ObjectMessage) message;
-            CommunicationMessage cm = (CommunicationMessage) om.getObject();
+            CommunicationMessageEmail cm = (CommunicationMessageEmail) om.getObject();
+            MessageQueue.addCommunicationMessageEmail(cm);
             System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
             System.out.println("startTime: " + cm.getStartTime());
             System.out.println("endTime: " + cm.getEndTime());

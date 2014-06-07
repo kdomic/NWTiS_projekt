@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="top"> #{i18n.public_title} </ui:define>
+
+            <ui:define name="left">
+                <h:link value="#{i18n.public_home}" outcome="home" /> <br/>
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form>
+                    <p:outputLabel for="datetime1" value="#{i18n.admin_logsStartDate}:" />
+                    <p:calendar id="datetime1" value="#{javniDio.startDate}" pattern="dd/MM/yyyy HH:mm:ss" mode="popup" >
+                        <p:ajax event="dateSelect" update="datetime1"/>
+                    </p:calendar>
+                    <p:outputLabel for="datetime2" value="#{i18n.admin_logsEndDate}:" />
+                    <p:calendar id="datetime2" value="#{javniDio.endDate}" pattern="dd/MM/yyyy HH:mm:ss" mode="popup" >
+                        <p:ajax event="dateSelect" update="datetime2" />
+                    </p:calendar>
+                    <p:commandButton id="button1" value="#{i18n.admin_logsRefresh}" action="#{javniDio.getData}" update="datatable"></p:commandButton>
+
+                    <p:dataTable id="datatable" value="#{javniDio.wd}" var="wd" rowKey="#{wd.adresaId}" paginator="true" rows="10" >
+                        <p:column headerText="#{i18n.public_id}">
+                            <h:outputText value="#{wd.adresaId}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_address}">
+                            <h:outputText value="#{wd.adress}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_dewPoint}">
+                            <h:outputText value="#{wd.dewPoint}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_humidity}">
+                            <h:outputText value="#{wd.humidity}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_rainRate}">
+                            <h:outputText value="#{wd.rainRate}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_temperature}">
+                            <h:outputText value="#{wd.temperature}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_windSpeed}">
+                            <h:outputText value="#{wd.windSpeed}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_windDirection}">
+                            <h:outputText value="#{wd.windDirection}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_feelsLike}">
+                            <h:outputText value="#{wd.feelsLike}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

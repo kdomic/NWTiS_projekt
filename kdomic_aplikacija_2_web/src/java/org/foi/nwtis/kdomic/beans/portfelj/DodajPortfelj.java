@@ -109,7 +109,6 @@ public class DodajPortfelj implements Serializable {
         } else if (selectedLocations.size() > max) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Greška!", "Odabrali ste prevoše adresa"));
         } else {
-            System.out.println("INSERT: " + portfolioName);
             MeteoPortfolio mp = new MeteoPortfolio(portfolioName, Prijava.loggdeUser);
             meteoPortfolioFacade.create(mp);
             for (String s : selectedLocations) {

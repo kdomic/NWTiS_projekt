@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+    <application>
+        <resource-bundle>>
+            <base-name>org.foi.nwtis.kdomic.languages.i18n</base-name>
+            <var>i18n</var>
+        </resource-bundle>   
+        <locale-config>
+            <default-locale>hr</default-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+    </application>
+    
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>public</from-outcome>
+            <to-view-id>javniDio.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/portfelj/prijava.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/portfelj/registracija.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/javniDio.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/portfelj/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/portfelj/odjava.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/portfelj/odjava.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/portfelj/prijava.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{prijava.doLogin()}</from-action>
+            <from-outcome>loggedin</from-outcome>
+            <to-view-id>/portfelj/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>isAdmin</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>isUser</from-outcome>
+            <to-view-id>/portfelj/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/portfelj/registracija.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/portfelj/dodajPortfelj.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>portfelj</from-outcome>
+            <to-view-id>/portfelj/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{dodajPortfelj.saveForm()}</from-action>
+            <from-outcome>portfolioAdded</from-outcome>
+            <to-view-id>/portfelj/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <from-view-id>/admin/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>emailLogin</from-outcome>
+            <to-view-id>/admin/emailPostavke.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>logs</from-outcome>
+            <to-view-id>/admin/dnevnik.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/admin/emailPostavke.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{emailPostavke.connect()}</from-action>
+            <from-outcome>connect</from-outcome>
+            <to-view-id>/admin/pregledPoruka.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>adminIndex</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/admin/pregledPoruka.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>adminIndex</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/admin/dnevnik.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>adminIndex</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+
+</faces-config>
