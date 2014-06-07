@@ -50,7 +50,7 @@
     </context-param>
     <context-param>
         <param-name>emailSubject</param-name>
-        <param-value>HWTiS Stetistika</param-value>
+        <param-value>NWTiS_Statistika</param-value>
     </context-param>
     <filter>
         <filter-name>ApplicationFilter</filter-name>

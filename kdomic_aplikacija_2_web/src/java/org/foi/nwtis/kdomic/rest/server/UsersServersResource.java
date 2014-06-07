@@ -48,20 +48,23 @@ public class UsersServersResource {
     @GET
     @Produces("application/json")
     public String getXml() {
-        JSONArray users = new JSONArray();
-        for (Users u : PrijavljeniKorisnici.usersList) {
-            JSONObject jo = new JSONObject();
-            try {
+        JSONObject json = new JSONObject();
+        try {
+            JSONArray users = new JSONArray();
+            for (Users u : PrijavljeniKorisnici.usersList) {
+                JSONObject jo = new JSONObject();
                 jo.put("id", u.getId());
                 jo.put("username", u.getUsername());
                 jo.put("firstName", u.getFirstname());
                 jo.put("lastName", u.getLastname());
-            } catch (JSONException ex) {
-                Logger.getLogger(UsersServersResource.class.getName()).log(Level.SEVERE, null, ex);
-            }
                 users.put(jo);
+            }
+            json.put("korisnici", users);
+        } catch (JSONException ex) {
+            Logger.getLogger(UsersServersResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return users.toString();
+        return json.toString();
+
     }
 
     /**

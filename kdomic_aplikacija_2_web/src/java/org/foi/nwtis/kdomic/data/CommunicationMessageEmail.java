@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author Krunoslav
  */
-public class CommunicationMessage implements Serializable{
+public class CommunicationMessageEmail implements Serializable{
     
     private Date startTime;
     private Date endTime;
@@ -21,7 +21,7 @@ public class CommunicationMessage implements Serializable{
     private Integer numberOfNwtisMessage;
     private Integer numberOfOtherMessages;
 
-    public CommunicationMessage(Date startTime, Date endTime, Integer numberOfMessages, Integer numberOfNwtisMessage, Integer numberOfOtherMessages) {
+    public CommunicationMessageEmail(Date startTime, Date endTime, Integer numberOfMessages, Integer numberOfNwtisMessage, Integer numberOfOtherMessages) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.numberOfMessages = numberOfMessages;
@@ -68,7 +68,4 @@ public class CommunicationMessage implements Serializable{
     public void setNumberOfOtherMessages(Integer numberOfOtherMessages) {
         this.numberOfOtherMessages = numberOfOtherMessages;
     }
-    
-    
-    
 }

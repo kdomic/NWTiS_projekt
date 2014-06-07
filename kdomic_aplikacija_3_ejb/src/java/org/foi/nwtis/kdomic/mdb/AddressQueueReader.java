@@ -5,11 +5,7 @@
  */
 package org.foi.nwtis.kdomic.mdb;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import static java.lang.Thread.sleep;
-import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.ActivationConfigProperty;
@@ -37,6 +33,7 @@ public class AddressQueueReader implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
+        MessageQueue.setNewAddressAdded(true);
         try {
             ObjectMessage om = (ObjectMessage) message;
             CommunicationMessageAddress cm = (CommunicationMessageAddress) om.getObject();

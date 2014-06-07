@@ -60,18 +60,20 @@ public class ItemAddressPortfolioListResource {
     @GET
     @Produces("application/json")
     public String getXml() {
-        JSONArray address = new JSONArray();
-        for (PortfolioAddresses pa : portfolioAddressesFacade.findByPortfolio(new MeteoPortfolio(Integer.parseInt(id)))) {
-            JSONObject jo = new JSONObject();
-            try {
+        JSONObject json = new JSONObject();
+        try {
+            JSONArray address = new JSONArray();
+            for (PortfolioAddresses pa : portfolioAddressesFacade.findByPortfolio(new MeteoPortfolio(Integer.parseInt(id)))) {
+                JSONObject jo = new JSONObject();
                 jo.put("id", pa.getId());
                 jo.put("naziv", pa.getAddress());
-            } catch (JSONException ex) {
-                Logger.getLogger(UsersServersResource.class.getName()).log(Level.SEVERE, null, ex);
+                address.put(jo);
             }
-            address.put(jo);
+            json.put("adrese", address);
+        } catch (JSONException ex) {
+            Logger.getLogger(UsersServersResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return address.toString();
+        return json.toString();
     }
 
     /**

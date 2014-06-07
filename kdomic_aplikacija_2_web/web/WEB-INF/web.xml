@@ -6,7 +6,7 @@
     </context-param>
     <context-param>
         <param-name>EmailReaderThreadTime</param-name>
-        <param-value>0</param-value>
+        <param-value>3600</param-value>
     </context-param>
     <context-param>
         <param-name>emailServer</param-name>
@@ -46,7 +46,7 @@
     </context-param>
     <context-param>
         <param-name>emailSubject</param-name>
-        <param-value>HWTiS Statistika</param-value>
+        <param-value>NWTiS_Statistika</param-value>
     </context-param>
     <context-param>
         <param-name>portfolioAddressNumMin</param-name>

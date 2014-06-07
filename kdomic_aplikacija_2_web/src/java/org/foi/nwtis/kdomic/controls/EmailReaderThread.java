@@ -24,7 +24,7 @@ import javax.naming.Context;
 import javax.servlet.ServletContext;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import org.foi.nwtis.kdomic.data.CommunicationMessage;
+import org.foi.nwtis.kdomic.data.CommunicationMessageEmail;
 import org.foi.nwtis.kdomic.data.Poruka;
 import org.foi.nwtis.kdomic.listeners.ApplicationListener;
 import org.foi.nwtis.kdomic.server.Email;
@@ -88,19 +88,19 @@ public class EmailReaderThread extends TimerTask {
         }
         Date dateEnd = new Date();
         try {
-            this.sendJMSMessageToNWTiS_kdomic_1(new CommunicationMessage(dateStart, dateEnd, numberOfMessages, numberOfNwtisMessage, numberOfOtherMessages));
+            this.sendJMSMessageToNWTiS_kdomic_1(new CommunicationMessageEmail(dateStart, dateEnd, numberOfMessages, numberOfNwtisMessage, numberOfOtherMessages));
         } catch (JMSException | NamingException ex) {
             Logger.getLogger(EmailReaderThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public Message createJMSMessageForjmsNWTiS_kdomic_1(Session session, CommunicationMessage messageData) throws JMSException {
+    public Message createJMSMessageForjmsNWTiS_kdomic_1(Session session, CommunicationMessageEmail messageData) throws JMSException {
         ObjectMessage objectMessage = session.createObjectMessage();
         objectMessage.setObject(messageData);
         return (Message) objectMessage;
     }
 
-    public void sendJMSMessageToNWTiS_kdomic_1(CommunicationMessage messageData) throws JMSException, NamingException {
+    public void sendJMSMessageToNWTiS_kdomic_1(CommunicationMessageEmail messageData) throws JMSException, NamingException {
         Context c = new InitialContext();
         ConnectionFactory cf = (ConnectionFactory) c.lookup("java:comp/env/jms/NWTiS_QF_kdomic_1");
         Connection conn = null;

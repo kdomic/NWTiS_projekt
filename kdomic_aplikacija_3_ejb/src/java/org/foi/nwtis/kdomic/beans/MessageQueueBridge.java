@@ -5,6 +5,7 @@
  */
 package org.foi.nwtis.kdomic.beans;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,6 +20,7 @@ import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import org.foi.nwtis.kdomic.data.CommunicationMessageEmail;
 import org.foi.nwtis.kdomic.data.CommunicationMessageAddress;
+import org.foi.nwtis.kdomic.server.SocketServerClient;
 
 /**
  *
@@ -32,8 +34,28 @@ public class MessageQueueBridge {
         return MessageQueue.getAddress();
     }
 
+    public static void removeAddress(CommunicationMessageAddress cma) {
+        MessageQueue.removeCommunicationMessageAddress(cma);
+    }
+
+    public static Boolean refreshAddress() {
+        Boolean ret = MessageQueue.isNewAddressAdded() == null ? false : MessageQueue.isNewAddressAdded();
+        MessageQueue.setNewAddressAdded(false);
+        return ret;
+    }
+
     public static List<CommunicationMessageEmail> getMessage() {
         return MessageQueue.getEmail();
+    }
+
+    public static void removeMessage(CommunicationMessageEmail cme) {
+        MessageQueue.removeCommunicationMessageEmail(cme);
+    }
+
+    public static Boolean refreshMessage() {
+        Boolean ret = MessageQueue.isNewMessageAdded() == null ? false : MessageQueue.isNewMessageAdded();
+        MessageQueue.setNewMessageAdded(false);
+        return ret;
     }
 
     public void init(String adminUsername, String adminPassword, String host, Integer port, Integer numberOfAttempts, Integer pauseTime, String fileNameAddress, String fileNameEmail) {
@@ -50,6 +72,12 @@ public class MessageQueueBridge {
 
     public void loadSerilization() {
         System.out.println("LOAD SERIALIZED DATA IN PROGRESS...");
+        File f = new File(MessageQueue.getFileNameAddress());
+        if (!f.exists()) {
+            System.out.println("---no data found---");
+            System.out.println("LOAD SERIALIZED DATA END");
+            return;
+        }
         try {
             try (FileInputStream in = new FileInputStream(MessageQueue.getFileNameAddress())) {
                 try (ObjectInputStream s = new ObjectInputStream(in)) {
@@ -104,6 +132,13 @@ public class MessageQueueBridge {
             }
         }
         System.out.println("DATA SERIALIZATION IN END");
+    }
+
+    public String getCurrentMeteo(String adress) {
+        String adminUsername = MessageQueue.getAdminUsername();
+        String adminPassword = MessageQueue.getAdminPassword();
+        SocketServerClient ssc = new SocketServerClient();
+        return ssc.send("USER " + adminUsername + "; PASSWD " + adminPassword + "; GET " + adress + ";");
     }
 
 }

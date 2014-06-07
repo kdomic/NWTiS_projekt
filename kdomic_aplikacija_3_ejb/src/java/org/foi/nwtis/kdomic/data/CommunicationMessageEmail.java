@@ -68,7 +68,4 @@ public class CommunicationMessageEmail implements Serializable{
     public void setNumberOfOtherMessages(Integer numberOfOtherMessages) {
         this.numberOfOtherMessages = numberOfOtherMessages;
     }
-    
-    
-    
 }

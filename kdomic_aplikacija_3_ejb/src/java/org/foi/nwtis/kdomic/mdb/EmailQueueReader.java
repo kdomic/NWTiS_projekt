@@ -31,6 +31,7 @@ public class EmailQueueReader implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
+        MessageQueue.setNewMessageAdded(true);
         try {
             ObjectMessage om = (ObjectMessage) message;
             CommunicationMessageEmail cm = (CommunicationMessageEmail) om.getObject();

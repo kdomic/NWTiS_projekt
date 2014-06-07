@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:outputScript name="./js/websocketEmail.js"/>
+    
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="top">
+                Pregled zaprimljenih JMS poruka vezanih uz EMAIL
+            </ui:define>
+
+            <ui:define name="left">
+                <h:link value="Početna" outcome="home" /> <br/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form">
+                     <p:remoteCommand name="updateGrowl" update=":form:datatable" />
+                    <p:dataTable id="datatable" value="#{jmsEmail.list}" var="jms">
+
+                        <p:column headerText="POČETAK OBRADE">
+                            <h:outputText value="#{jms.startTime}" />
+                        </p:column>
+                        <p:column headerText="ZAVRŠETAK OBRADE">
+                            <h:outputText value="#{jms.endTime}" />
+                        </p:column>
+                        <p:column headerText="BROJ PORUKA">
+                            <h:outputText value="#{jms.numberOfMessages}" />
+                        </p:column>
+                        <p:column headerText="NWTiS PORUKE">
+                            <h:outputText value="#{jms.numberOfNwtisMessage}" />
+                        </p:column>
+                        <p:column headerText="OSTALE PORUKE">
+                            <h:outputText value="#{jms.numberOfOtherMessages}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header"></f:facet>
+                            <p:commandButton icon="ui-icon-close" title="Obrisi zapis" actionListener="#{jmsEmail.delete(jms)}" update="datatable" />
+                        </p:column> 
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

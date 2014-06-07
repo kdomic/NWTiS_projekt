@@ -60,18 +60,20 @@ public class PortfolioListResource {
     @GET
     @Produces("application/json")
     public String getJson() {
-        JSONArray users = new JSONArray();
-        for (MeteoPortfolio mp : meteoPortfolioFacade.findByUser(new Users(Integer.parseInt(this.id)))) {
-            JSONObject jo = new JSONObject();
-            try {
-                jo.put("id",mp.getId());
-                jo.put("name",mp.getName());
-            } catch (JSONException ex) {
-                Logger.getLogger(UsersServersResource.class.getName()).log(Level.SEVERE, null, ex);
+        JSONObject json = new JSONObject();
+        try {
+            JSONArray portfolios = new JSONArray();
+            for (MeteoPortfolio mp : meteoPortfolioFacade.findByUser(new Users(Integer.parseInt(this.id)))) {
+                JSONObject jo = new JSONObject();
+                jo.put("id", mp.getId());
+                jo.put("name", mp.getName());
+                portfolios.put(jo);
             }
-            users.put(jo);
+            json.put("portfelji", portfolios);
+        } catch (JSONException ex) {
+            Logger.getLogger(UsersServersResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return users.toString();
+        return json.toString();
     }
 
     /**

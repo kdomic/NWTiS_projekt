@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="top">
+                Pregled prijavljenih korisnika u APLIKACIJI 2 i njihovi pripadajući portfelji
+            </ui:define>
+
+            <ui:define name="left">
+                <h:link value="Početna" outcome="home" /> <br/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <h1>POPIS TRENUTNO LOGIRANIH KORISNIKA U APLIKACIJI 2</h1>
+                    <p:dataTable id="datatable" value="#{aktivniKorisnici.users}" var="user" rowKey="#{user.id}"
+                                 selection="#{aktivniKorisnici.selectedUser}" selectionMode="single"
+                                 paginator="true" rows="5" paginatorPosition="top" >
+
+                        <p:ajax event="rowSelect" update=":form:portfolioList,:form:addressList,:form:currentTemp" listener="#{aktivniKorisnici.generatePortfolios()}" />
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{user.id}" />
+                        </p:column>
+                        <p:column headerText="IME">
+                            <h:outputText value="#{user.firstName}" />
+                        </p:column>
+                        <p:column headerText="PREZIME">
+                            <h:outputText value="#{user.lastName}" />
+                        </p:column>
+                        <p:column headerText="KORISNIČKO IME">
+                            <h:outputText value="#{user.username}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <hr/>
+                    <h1>POPIS PORTFELJA SELEKTIRANOG KORISNIKA</h1>
+                    <p:dataTable id="portfolioList"
+                                 value="#{aktivniKorisnici.portfolios}" var="portfolio" rowKey="#{portfolio.id}"
+                                 selection="#{aktivniKorisnici.selectedPortfolio}" selectionMode="single"
+                                 paginator="true" rows="5" paginatorPosition="top" >
+
+                        <p:ajax event="rowSelect" update=":form:addressList,:form:currentTemp" listener="#{aktivniKorisnici.generateAddress()}" />
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{portfolio.id}" />
+                        </p:column>
+
+                        <p:column headerText="NAZIV PORTFOLIA">
+                            <h:outputText value="#{portfolio.naziv}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <hr/>
+                    <h1>POPIS ADRESA U SELEKRIRANOM PORTFELJU</h1>
+                    <p:dataTable id="addressList"
+                                 value="#{aktivniKorisnici.address}" var="address" rowKey="#{address.id}"
+                                 selection="#{aktivniKorisnici.selectedAddress}" selectionMode="single"
+                                 paginator="true" rows="5" paginatorPosition="top" >
+
+                        <p:ajax event="rowSelect" update=":form:currentTemp" listener="#{aktivniKorisnici.genenerateCurrentMeteo()}" />
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{address.id}" />
+                        </p:column>
+
+                        <p:column headerText="ISPIS ADRESA">
+                            <h:outputText value="#{address.naziv}" />
+                        </p:column>
+                    </p:dataTable>
+                    
+                    <hr/>
+                    <h:outputLabel id="currentTempLabel" value="Trenutna podaci: " />
+                    <h:outputText value="#{aktivniKorisnici.meteoData}" id="currentTemp" />
+                    
+                </h:form>
+            </ui:define>
+
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.foi.nwtis.kdomic.beans.MessageQueueBridge;
+import org.foi.nwtis.kdomic.web.websocket.PeriodicalAddressChecker;
 
 /**
  * Web application lifecycle listener.
@@ -22,8 +23,10 @@ import org.foi.nwtis.kdomic.beans.MessageQueueBridge;
 public class ApplicationListener implements ServletContextListener {
 
     MessageQueueBridge messageQueueBridge = lookupMessageQueueBridgeBean();
-
+    PeriodicalAddressChecker checker;
+    
     @Override
+
     public void contextInitialized(ServletContextEvent sce) {
         String adminUsername = sce.getServletContext().getInitParameter("adminUsername");
         String adminPassword = sce.getServletContext().getInitParameter("adminPassword");
@@ -33,11 +36,15 @@ public class ApplicationListener implements ServletContextListener {
         Integer pauseTime = Integer.parseInt(sce.getServletContext().getInitParameter("pauseTime"));
         String fileNameAddress = sce.getServletContext().getRealPath("WEB-INF") + java.io.File.separator + sce.getServletContext().getInitParameter("fileNameAddress");
         String fileNameEmail = sce.getServletContext().getRealPath("WEB-INF") + java.io.File.separator + sce.getServletContext().getInitParameter("fileNameEmail");
-        messageQueueBridge.init(adminUsername, adminPassword, host, port, numberOfAttempts, pauseTime,fileNameAddress,fileNameEmail);
+        messageQueueBridge.init(adminUsername, adminPassword, host, port, numberOfAttempts, pauseTime, fileNameAddress, fileNameEmail);
+
+        checker = new PeriodicalAddressChecker();
+        checker.start();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        checker.interrupt();
         messageQueueBridge.runSerialization();
     }
 

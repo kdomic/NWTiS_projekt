@@ -5,8 +5,6 @@
  */
 package org.foi.nwtis.kdomic.beans.portfelj;
 
-import java.awt.Event;
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,7 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 import org.foi.nwtis.kdomic.eb.MeteoPortfolio;
 import org.foi.nwtis.kdomic.eb.PortfolioAddresses;
 import org.foi.nwtis.kdomic.sb.MeteoPortfolioFacade;

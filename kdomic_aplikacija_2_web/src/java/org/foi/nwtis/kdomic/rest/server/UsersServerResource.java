@@ -42,7 +42,7 @@ public class UsersServerResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Produces("application/xml")
+    @Produces("application/json")
     public String getXml() {
         //TODO return proper representation object
         throw new UnsupportedOperationException();
@@ -54,7 +54,7 @@ public class UsersServerResource {
      * @return an HTTP response with content of the updated or created resource.
      */
     @PUT
-    @Consumes("application/xml")
+    @Consumes("application/json")
     public void putXml(String content) {
     }
 

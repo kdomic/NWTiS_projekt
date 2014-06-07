@@ -5,7 +5,6 @@
  */
 package org.foi.nwtis.kdomic.beans;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
@@ -20,7 +19,10 @@ import org.foi.nwtis.kdomic.data.CommunicationMessageAddress;
 public class MessageQueue {
 
     static List<CommunicationMessageEmail> email;
+    static Boolean newEmailAdded;
     static List<CommunicationMessageAddress> address;
+    static Boolean newAddressAdded;
+    static Boolean newMessageAdded;
 
     private static String adminUsername;
     private static String adminPassword;
@@ -28,8 +30,8 @@ public class MessageQueue {
     private static Integer port;
     private static Integer numberOfAttempts;
     private static Integer pauseTime;
-    private static String  fileNameAddress;
-    private static String  fileNameEmail;
+    private static String fileNameAddress;
+    private static String fileNameEmail;
 
     public static void addCommunicationMessageEmail(CommunicationMessageEmail temp) {
         if (MessageQueue.email == null) {
@@ -38,11 +40,19 @@ public class MessageQueue {
         MessageQueue.email.add(temp);
     }
 
+    public static void removeCommunicationMessageEmail(CommunicationMessageEmail temp) {
+        MessageQueue.email.remove(temp);
+    }
+
     public static void addCommunicationMessageAddress(CommunicationMessageAddress temp) {
         if (MessageQueue.address == null) {
             MessageQueue.address = new ArrayList<>();
         }
         MessageQueue.address.add(temp);
+    }
+
+    public static void removeCommunicationMessageAddress(CommunicationMessageAddress temp) {
+        MessageQueue.address.remove(temp);
     }
 
     public static List<CommunicationMessageEmail> getEmail() {
@@ -123,6 +133,30 @@ public class MessageQueue {
 
     public static void setFileNameEmail(String aFileNameEmail) {
         fileNameEmail = aFileNameEmail;
+    }
+
+    public static Boolean isNewEmailAdded() {
+        return newEmailAdded;
+    }
+
+    public static void setNewEmailAdded(Boolean newEmailAdded) {
+        MessageQueue.newEmailAdded = newEmailAdded;
+    }
+
+    public static synchronized Boolean isNewAddressAdded() {
+        return newAddressAdded;
+    }
+
+    public static synchronized void setNewAddressAdded(Boolean newAddressAdded) {
+        MessageQueue.newAddressAdded = newAddressAdded;
+    }
+
+    public static synchronized Boolean isNewMessageAdded() {
+        return newMessageAdded;
+    }
+
+    public static synchronized void setNewMessageAdded(Boolean newMessageAdded) {
+        MessageQueue.newMessageAdded = newMessageAdded;
     }
     
     
