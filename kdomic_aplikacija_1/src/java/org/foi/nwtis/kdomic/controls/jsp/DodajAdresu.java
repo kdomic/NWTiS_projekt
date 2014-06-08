@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package org.foi.nwtis.kdomic.controls.jsp;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +52,7 @@ public class DodajAdresu extends HttpServlet {
         }
 
         request.setAttribute("message", message);
-        request.getRequestDispatcher("dodajAdresu.jsp").forward(request, response);
+        request.getRequestDispatcher("./dodajAdresu.jsp").forward(request, response);
     }
 
     private String replacer(String a) {

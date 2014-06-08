@@ -10,14 +10,14 @@
 <html>
     <head>
         <title>NWTiS</title>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/skel.min.js"></script>
-        <script src="js/init.js"></script>
+        <script src="./js/jquery.min.js"></script>
+        <script src="./js/skel.min.js"></script>
+        <script src="./js/init.js"></script>
         <noscript>
-        <link rel="stylesheet" href="css/skel-noscript.css" />
-        <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="css/style-desktop.css" />
-        <link rel="stylesheet" href="css/noscript.css" />
+        <link rel="stylesheet" href="./css/skel-noscript.css" />
+        <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="./css/style-desktop.css" />
+        <link rel="stylesheet" href="./css/noscript.css" />
         </noscript>
         <!--[if lte IE 8]><script src="js/html5shiv.js"></script><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
     </head>
@@ -28,10 +28,10 @@
 
             <!-- Nav -->
             <nav id="nav">
-                <a href="" class="fa fa-home active"><span>Unos adrese</span></a>
-                <a href="PregledAdresa" class="fa fa-folder"><span>Pregled adresa</span></a>
-                <a href="MeteoPodaci" class="fa fa-folder"><span>Meteorološki podaci</span></a>
-                <a href="PregledDnevnika" class="fa fa-folder"><span>Pregled dnevnika</span></a>
+                <a href="./dodajAdresu.jsp" class="fa fa-folder-open-o active"><span>Unos adrese</span></a>
+                <a href="./PregledAdresa" class="fa fa-folder"><span>Pregled adresa</span></a>
+                <a href="./MeteoPodaci" class="fa fa-folder"><span>Meteorološki podaci</span></a>
+                <a href="./PregledDnevnika" class="fa fa-folder"><span>Pregled dnevnika</span></a>
             </nav>
 
             <!-- Main -->
@@ -46,7 +46,7 @@
                     <header>
                         <h2>Dodaj adresu</h2>
                     </header>
-                    <form action="DodajAdresu" method="post">
+                    <form action="./DodajAdresu" method="post">
                         <div>
                             <div class="row half">
                                 <div class="12u">

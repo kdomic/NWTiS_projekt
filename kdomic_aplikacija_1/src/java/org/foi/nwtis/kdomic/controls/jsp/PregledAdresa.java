@@ -34,7 +34,7 @@ public class PregledAdresa extends HttpServlet {
             throws ServletException, IOException {
         ArrayList<Location> getAllAddress = Database.getAllAddress();
         request.setAttribute("getAllAddress", getAllAddress);
-        request.getRequestDispatcher("pregledAdresa.jsp").forward(request, response);
+        request.getRequestDispatcher("./pregledAdresa.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

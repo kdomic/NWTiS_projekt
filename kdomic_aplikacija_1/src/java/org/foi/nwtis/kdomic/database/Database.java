@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import org.foi.nwtis.kdomic.konfiguracije.bp.BP_Konfiguracija;
 import org.foi.nwtis.kdomic.data.Location;
 import org.foi.nwtis.kdomic.data.Logs;
+import org.foi.nwtis.kdomic.data.Users;
 import org.foi.nwtis.kdomic.data.WeatherData;
 import org.foi.nwtis.kdomic.data.WeatherDataSmall;
 import org.foi.nwtis.kdomic.listeners.ApplicationListener;
@@ -386,6 +387,10 @@ public class Database {
         return insert("INSERT INTO tbllogs(user, action, duration, datetime) VALUES ('" + user + "','" + command + "','" + duration + "',NOW())");
     }
 
+    public static String insertLogFilter(String user, String command, String duration) {
+        return insert("INSERT INTO tbllogs(user, action, duration, datetime) VALUES ( (SELECT id FROM tblpearsons WHERE username='" + user + "') ,'" + command + "','" + duration + "',NOW())");
+    }
+
     public static List<Logs> getAllLogs() {
         List<Logs> l = null;
 
@@ -408,6 +413,104 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return l;
+    }
+
+    public static List<Users> getUsers() {
+        List<Users> users = null;
+
+        try {
+            BP_Konfiguracija bp = (BP_Konfiguracija) ApplicationListener.bp;
+            Class.forName(bp.getDriver_database());
+            Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
+            Statement statement = connect.createStatement();
+            String sql = "SELECT * from tblpearsons";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                if (users == null) {
+                    users = new ArrayList();
+                }
+                users.add(new Users(resultSet.getString("id"), resultSet.getString("username"), resultSet.getString("password"), resultSet.getString("role")));
+            }
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return users;
+    }
+
+    public static String makeLogSqlWIthFilter(String page, String maxPerPage, Boolean dateCheck, String dateStart, String dateEnd, Boolean userCheck, String userId) {
+        String sql = "SELECT * FROM tbllogs";
+        if (userCheck) {
+            sql += " WHERE user=" + userId;
+        }
+        if (dateCheck) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                dateStart = sdf.format(new SimpleDateFormat("dd.MM.yyyy hh.mm.ss").parse(dateStart));
+                dateEnd = sdf.format(new SimpleDateFormat("dd.MM.yyyy hh.mm.ss").parse(dateEnd));
+            } catch (ParseException ex) {
+                maxPerPage = "svi";
+            }
+            if (userCheck) {
+                sql += " AND (datetime BETWEEN '" + dateStart + "' AND '" + dateEnd + "')";
+            } else {
+                sql += " WHERE (datetime BETWEEN '" + dateStart + "' AND '" + dateEnd + "')";
+            }
+        }
+        sql += " ORDER BY datetime DESC";
+        if (!maxPerPage.equals("svi")) {
+            Integer rowPerPage = Integer.parseInt(maxPerPage);
+            Integer offset = (Integer.parseInt(page) - 1) * rowPerPage;
+            sql += " LIMIT " + offset + "," + rowPerPage;
+        }
+        return sql;
+    }
+
+    public static List<Logs> getAllLogsByFilter(String page, String maxPerPage, Boolean dateCheck, String dateStart, String dateEnd, Boolean userCheck, String userId) {
+        String sql = makeLogSqlWIthFilter(page, maxPerPage, dateCheck, dateStart, dateEnd, userCheck, userId);
+        List<Logs> l = null;
+        try {
+            BP_Konfiguracija bp = (BP_Konfiguracija) ApplicationListener.bp;
+            Class.forName(bp.getDriver_database());
+            Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
+            Statement statement = connect.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                if (l == null) {
+                    l = new ArrayList();
+                }
+                l.add(new Logs(resultSet.getString("id"), resultSet.getString("user"), resultSet.getString("action"), resultSet.getString("duration"), resultSet.getString("datetime")));
+            }
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return l;
+    }
+
+    public static Integer countAllLogsByFilter(String page, String maxPerPage, Boolean dateCheck, String dateStart, String dateEnd, Boolean userCheck, String userId) {
+        String sql = Database.makeLogSqlWIthFilter(page, "svi", dateCheck, dateStart, dateEnd, userCheck, userId);
+        sql = sql.replace("*", "count(*) AS num");
+        System.out.println(sql);
+        Integer num = 0;
+        try {
+            BP_Konfiguracija bp = (BP_Konfiguracija) ApplicationListener.bp;
+            Class.forName(bp.getDriver_database());
+            Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
+            Statement statement = connect.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                num = Integer.parseInt(resultSet.getString("num"));
+            }
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return num;
     }
 
 }

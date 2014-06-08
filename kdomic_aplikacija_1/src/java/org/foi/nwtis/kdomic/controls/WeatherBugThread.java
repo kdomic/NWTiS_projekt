@@ -48,7 +48,7 @@ public class WeatherBugThread extends TimerTask {
             Statement statement = connect.createStatement();
 
             ResultSet resultSet = statement.executeQuery("SELECT * FROM tblAddress");
-            while (resultSet.next()) {
+            while (resultSet.next()) {                
                 try {
                     WeatherBugKlijent wbk = new WeatherBugKlijent();
                     WeatherData wd = wbk.getRealTimeWeather(resultSet.getString("latitude"), resultSet.getString("longitude"));

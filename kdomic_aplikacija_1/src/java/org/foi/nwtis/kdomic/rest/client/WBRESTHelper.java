@@ -28,9 +28,7 @@ public class WBRESTHelper {
                 .target(WB_BASE_URI + "oauth20/token?grant_type=client_credentials&client_id=" + cKey + "&client_secret=" + sKey)
                 .request(MediaType.APPLICATION_XML)
                 .get(Authentication.class);
-    } 
-    
-    // todo pripremi autentikaciju na bazi json-a
+    }   
 
     public Authentication getAutentikacija() {
         return autentikacija;

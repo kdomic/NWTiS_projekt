@@ -39,15 +39,20 @@ public class MeteoPodaci extends HttpServlet {
         Boolean dateCheck = request.getParameter("dateCheck") != null;
         Boolean addressCheck = request.getParameter("addressCheck") != null;
 
-        //String maxPerPage = request.getParameter("maxPerPage") == null ? request.getParameter("perPage") == null ? "5" : request.getParameter("perPage") : request.getParameter("maxPerPage");
         String maxPerPage = request.getParameter("maxPerPage") == null ? request.getParameter("perPage") == null ? "5" : request.getParameter("perPage") : request.getParameter("maxPerPage");
         String dateStart = request.getParameter("dateStart") == null ? "" : request.getParameter("dateStart");
         String dateEnd = request.getParameter("dateEnd") == null ? "" : request.getParameter("dateEnd");
         String addressId = request.getParameter("addressId") == null ? "" : request.getParameter("addressId");
 
+        Integer maxPage = maxPerPage.equals("svi") ? 0 : (Database.countAllMeteoByFilter(page, maxPerPage, dateCheck, dateStart, dateEnd, addressCheck, addressId)+ Integer.parseInt(maxPerPage)-1)/Integer.parseInt(maxPerPage);
+        
+        if(Integer.parseInt(page)>maxPage){
+            page = "1";
+        }
+        
         List<WeatherData> wd = Database.getMeteoAllByFilter(page, maxPerPage, dateCheck, dateStart, dateEnd, addressCheck, addressId);
         ArrayList<Location> getAllAddress = Database.getAllAddress();
-        Integer maxPage = maxPerPage.equals("svi") ? 0 : (Database.countAllMeteoByFilter(page, maxPerPage, dateCheck, dateStart, dateEnd, addressCheck, addressId)+ Integer.parseInt(maxPerPage)-1)/Integer.parseInt(maxPerPage);
+        
         System.out.println("Broj zapisa: " + getAllAddress.size());
         System.out.println("Djelitelj: " + Integer.parseInt(maxPerPage.equals("svi") ? "0" : maxPerPage));
 
@@ -66,7 +71,7 @@ public class MeteoPodaci extends HttpServlet {
         request.setAttribute("addressCheck", addressCheck ? "checked" : "");
         request.setAttribute("addressId", addressId);
         
-        request.getRequestDispatcher("meteoPodaci.jsp").forward(request, response);
+        request.getRequestDispatcher("./meteoPodaci.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
