@@ -50,7 +50,8 @@ public class Index implements Serializable {
 
     private Date startDate;
     private Date endDate;
-    
+
+    private Location l;
     private String currentTemp;
 
     /**
@@ -73,18 +74,23 @@ public class Index implements Serializable {
 
     public void generateAddressList() {
         addressList = portfolioAddressesFacade.findByPortfolio(selectedPortfolio);
+        wdList = null;
+        currentTemp = null;
     }
 
     public void generateTempList() {
-        Location l = GeoMeteoWSClient.getAddresFromName(selectedAddress.getAddress());
+        l = GeoMeteoWSClient.getAddresFromName(selectedAddress.getAddress());
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("START: " + df.format(startDate));
         System.out.println("END: " + df.format(endDate));
-
         wdList = GeoMeteoWSClient.getMeteoInDateRange(l.getAdresaId(), df.format(startDate), df.format(endDate));
-        currentTemp = GeoMeteoWSClient.getCurrentMeteoForAddreass(l.getAdresaId()).getTemperature().toString();
     }
 
+    public void generateCurrentTemp() {
+        if (l != null) {
+            currentTemp = GeoMeteoWSClient.getCurrentMeteoForAddreass(l.getAdresaId()).getTemperature().toString();
+        }
+    }
 
     public List<MeteoPortfolio> getPortfolioList() {
         return portfolioList;

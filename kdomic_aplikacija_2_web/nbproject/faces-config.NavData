@@ -3,8 +3,8 @@
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
         <Node id="portfelj/registracija.xhtml" x="150" y="300" zoom="true"/>
-        <Node id="admin/pregledPoruka.xhtml" x="150" y="600" zoom="true"/>
         <Node id="admin/emailPostavke.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="admin/pregledPoruka.xhtml" x="150" y="600" zoom="true"/>
         <Node id="admin/index.xhtml" x="400" y="450" zoom="true"/>
         <Node id="javniDio.xhtml" x="150" y="450" zoom="true"/>
         <Node id="template.xhtml" x="1150" y="150" zoom="true"/>
@@ -12,8 +12,8 @@
         <Node id="portfelj/prijava.xhtml" x="400" y="300" zoom="true"/>
         <Node id="index.xhtml" x="650" y="150" zoom="true"/>
         <Node id="admin/adminTemplate.xhtml" x="400" y="150" zoom="true"/>
-        <Node id="admin/dnevnik.xhtml" x="900" y="150" zoom="true"/>
         <Node id="portfelj/dodajPortfelj.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="admin/dnevnik.xhtml" x="900" y="150" zoom="true"/>
         <Node id="portfelj/index.xhtml" x="650" y="300" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>

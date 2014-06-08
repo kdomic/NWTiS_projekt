@@ -28,7 +28,7 @@
                     </p:calendar>
                     <p:commandButton id="button1" value="#{i18n.admin_logsRefresh}" action="#{javniDio.getData}" update="datatable"></p:commandButton>
 
-                    <p:dataTable id="datatable" value="#{javniDio.wd}" var="wd" rowKey="#{wd.adresaId}" paginator="true" rows="10" >
+                    <p:dataTable id="datatable" value="#{javniDio.wd}" var="wd" rowKey="#{wd.adresaId}" paginator="true" rows="10" emptyMessage="#{i18n.datatables_empty}" >
                         <p:column headerText="#{i18n.public_id}">
                             <h:outputText value="#{wd.adresaId}" />
                         </p:column>

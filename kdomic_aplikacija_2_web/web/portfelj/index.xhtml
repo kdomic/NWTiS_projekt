@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -21,84 +22,92 @@
 
             <ui:define name="content">
                 <h:form id="form">
-                    <p:layoutUnit position="north" resizable="true" size="250" minSize="40" style="width:100%;height:250px" >
+                    <h1>#{i18n.portfolio_title1}</h1>
+                    <p:dataTable id="portfolioList" emptyMessage="#{i18n.datatables_empty}"
+                                 value="#{index.portfolioList}" var="portfolio" rowKey="#{portfolio.id}"
+                                 paginator="true" rows="5" paginatorPosition="top"
+                                 selection="#{index.selectedPortfolio}" selectionMode="single">
 
-                        <p:dataTable id="portfolioList"
-                                     value="#{index.portfolioList}" var="portfolio" rowKey="#{portfolio.id}"
-                                     paginator="true" rows="5" paginatorPosition="top"
-                                     selection="#{index.selectedPortfolio}" selectionMode="single">
+                        <p:ajax event="rowSelect" update=":form:addressList,:form:tempList,:form:currentTemp" listener="#{index.generateAddressList}" />
 
-                            <p:ajax event="rowSelect" update=":form:addressList" listener="#{index.generateAddressList}" />
+                        <p:column headerText="#{i18n.portfolio_tblId}">
+                            <h:outputText value="#{portfolio.id}" />
+                        </p:column>
 
-                            <p:column headerText="#{i18n.portfolio_tblId}">
-                                <h:outputText value="#{portfolio.id}" />
-                            </p:column>
+                        <p:column headerText="#{i18n.portfolio_tblPortfolioName}">
+                            <h:outputText value="#{portfolio.name}" />
+                        </p:column>
+                    </p:dataTable>
 
-                            <p:column headerText="#{i18n.portfolio_tblPortfolioName}">
-                                <h:outputText value="#{portfolio.name}" />
-                            </p:column>
-                        </p:dataTable>
-                    </p:layoutUnit>
+                    <br/><hr/><br/>
+                    <h1>#{i18n.portfolio_title2}</h1>
+                    <p:dataTable id="addressList" emptyMessage="#{i18n.datatables_empty}"
+                                 value="#{index.addressList}" var="address" rowKey="#{address.id}"
+                                 paginator="true" rows="5" paginatorPosition="top"
+                                 selection="#{index.selectedAddress}" selectionMode="single">
 
-                    <p:layoutUnit position="center" size="250" style="width:100%;height:250px">
-                        <p:dataTable id="addressList"
-                                     value="#{index.addressList}" var="address" rowKey="#{address.id}"
-                                     paginator="true" rows="5" paginatorPosition="top"
-                                     selection="#{index.selectedAddress}" selectionMode="single">
+                        <p:ajax async="false" event="rowSelect" update=":form:tempList,:form:currentTemp" listener="#{index.generateTempList()}" />
 
-                            <p:ajax async="false" event="rowSelect" update=":form:tempList,:form:currentTemp" listener="#{index.generateTempList()}" />
+                        <p:column headerText="#{i18n.portfolio_tblId}">
+                            <h:outputText value="#{address.id}" />
+                        </p:column>
 
-                            <p:column headerText="#{i18n.portfolio_tblId}">
-                                <h:outputText value="#{address.id}" />
-                            </p:column>
+                        <p:column headerText="#{i18n.portfolio_tblAddressName}">
+                            <h:outputText value="#{address.address}" />
+                        </p:column>
+                    </p:dataTable>
 
-                            <p:column headerText="#{i18n.portfolio_tblAddressName}">
-                                <h:outputText value="#{address.address}" />
-                            </p:column>
-                        </p:dataTable>
-                    </p:layoutUnit>
+                    <br/><hr/><br/>
+                    <h1>#{i18n.portfolio_title3}</h1>
+                    <p:outputLabel for="datetime1" value="#{i18n.portfolio_tblStartDate}" />
+                    <p:calendar id="datetime1" value="#{index.startDate}" pattern="dd/MM/yyyy HH:mm:ss" mode="popup" >
+                        <p:ajax event="dateSelect" update="datetime1"/>
+                    </p:calendar>
+                    <p:outputLabel for="datetime2" value="#{i18n.portfolio_tblEndDate}" />
+                    <p:calendar id="datetime2" value="#{index.endDate}" pattern="dd/MM/yyyy HH:mm:ss" mode="popup" >
+                        <p:ajax event="dateSelect" update="datetime2" />
+                    </p:calendar>
 
-                    <p:layoutUnit position="south" size="250" style="width:100%;height:250px">
-                        <p:outputLabel for="datetime1" value="#{i18n.portfolio_tblStartDate}" />
-                        <p:calendar id="datetime1" value="#{index.startDate}" pattern="dd/MM/yyyy HH:mm:ss" mode="popup" >
-                            <p:ajax event="dateSelect" update="datetime1"/>
-                        </p:calendar>
-                        <p:outputLabel for="datetime2" value="#{i18n.portfolio_tblEndDate}" />
-                        <p:calendar id="datetime2" value="#{index.endDate}" pattern="dd/MM/yyyy HH:mm:ss" mode="popup" >
-                            <p:ajax event="dateSelect" update="datetime2" />
-                        </p:calendar>
-                        
-                        <p:commandButton id="button1" value="#{i18n.portfolio_tblRefresh}" action="#{index.generateTempList()}" update="tempList"></p:commandButton>
-                        
-                        <p:dataTable id="tempList"
-                                     value="#{index.wdList}" var="temp"
-                                     paginator="true" rows="5" paginatorPosition="top" >
-                            <p:column headerText="#{i18n.public_dewPoint}">
-                                <h:outputText value="#{temp.dewPoint}" />
-                            </p:column>
-                            <p:column headerText="#{i18n.public_humidity}">
-                                <h:outputText value="#{temp.humidity}" />
-                            </p:column>
-                            <p:column headerText="#{i18n.public_rainRate}">
-                                <h:outputText value="#{temp.rainRate}" />
-                            </p:column>
-                            <p:column headerText="#{i18n.public_temperature}">
-                                <h:outputText value="#{temp.temperature}" />
-                            </p:column>
-                            <p:column headerText="#{i18n.public_windSpeed}">
-                                <h:outputText value="#{temp.windSpeed}" />
-                            </p:column>
-                            <p:column headerText="#{i18n.public_windDirection}">
-                                <h:outputText value="#{temp.windDirection}" />
-                            </p:column>
-                            <p:column headerText="#{i18n.public_feelsLike}">
-                                <h:outputText value="#{temp.feelsLike}" />
-                            </p:column>
+                    <p:commandButton id="button1" value="#{i18n.portfolio_tblRefresh}" action="#{index.generateTempList()}" update="tempList"></p:commandButton>
 
-                        </p:dataTable>
-                        <h:outputLabel value="#{i18n.public_currentTemp}: " />
-                        <h:outputText value="#{index.currentTemp}" id="currentTemp" />
-                    </p:layoutUnit>
+                    <p:dataTable id="tempList" emptyMessage="#{i18n.datatables_empty}"
+                                 value="#{index.wdList}" var="temp"
+                                 paginator="true" rows="5" paginatorPosition="top" >
+                        <p:column headerText="#{i18n.public_dewPoint}">
+                            <h:outputText value="#{temp.dewPoint}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_humidity}">
+                            <h:outputText value="#{temp.humidity}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_rainRate}">
+                            <h:outputText value="#{temp.rainRate}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_temperature}">
+                            <h:outputText value="#{temp.temperature}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_windSpeed}">
+                            <h:outputText value="#{temp.windSpeed}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_windDirection}">
+                            <h:outputText value="#{temp.windDirection}" />
+                        </p:column>
+                        <p:column headerText="#{i18n.public_feelsLike}">
+                            <h:outputText value="#{temp.feelsLike}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <br/><hr/><br/>
+
+
+                    <h:commandButton id="btn" value="#{i18n.portfolio_tblRefresh}" action="#{index.generateCurrentTemp()}" > 
+                        <f:ajax execute="btn" render=":form:currentTemp"></f:ajax>
+                    </h:commandButton>
+
+                    <h:outputLabel value="#{i18n.public_currentTemp}: " />
+                    <h:outputText value="#{index.currentTemp}" id="currentTemp" />
+
+
                 </h:form>
             </ui:define>
 

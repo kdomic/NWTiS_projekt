@@ -5,6 +5,7 @@
  */
 package org.foi.nwtis.kdomic.beans.portfelj;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -17,7 +18,7 @@ import org.foi.nwtis.kdomic.eb.Users;
  */
 @ManagedBean
 @ApplicationScoped
-public class PrijavljeniKorisnici {
+public class PrijavljeniKorisnici implements Serializable  {
 
     public static List<Users> usersList = new ArrayList<>();
 

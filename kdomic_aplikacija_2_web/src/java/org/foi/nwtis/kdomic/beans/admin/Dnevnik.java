@@ -5,6 +5,7 @@
  */
 package org.foi.nwtis.kdomic.beans.admin;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,7 @@ import org.foi.nwtis.kdomic.sb.LogsFacade;
  */
 @ManagedBean
 @RequestScoped
-public class Dnevnik {
+public class Dnevnik implements Serializable{
 
     @EJB
     private LogsFacade logsFacade;

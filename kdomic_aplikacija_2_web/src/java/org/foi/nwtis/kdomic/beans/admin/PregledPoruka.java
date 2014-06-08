@@ -5,6 +5,7 @@
  */
 package org.foi.nwtis.kdomic.beans.admin;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -23,7 +24,7 @@ import org.foi.nwtis.kdomic.server.Email;
  */
 @ManagedBean
 @SessionScoped
-public class PregledPoruka extends Email {
+public class PregledPoruka extends Email implements Serializable  {
 
     List<Poruka> messages;
 
@@ -56,6 +57,7 @@ public class PregledPoruka extends Email {
     public void showMessages() {
         try {
             messages = preuzmiPoruke(selectedFolder);
+            selectedMessage = null;
         } catch (MessagingException ex) {
             Logger.getLogger(PregledPoruka.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,7 +69,7 @@ public class PregledPoruka extends Email {
             messages.remove(m);
             deleteMessage(m.getRaw(), selectedFolder);
         }
-    }
+    }   
 
     public List<Poruka> getMessages() {
         return messages;

@@ -6,6 +6,7 @@
 
 package org.foi.nwtis.kdomic.beans.general;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -19,7 +20,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class Localization {
+public class Localization implements Serializable  {
 
     private static Map<String, Object> supportedLanguage;
 

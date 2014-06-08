@@ -5,9 +5,9 @@
  */
 package org.foi.nwtis.kdomic.beans.admin;
 
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.foi.nwtis.kdomic.listeners.ApplicationListener;
@@ -19,7 +19,7 @@ import org.foi.nwtis.kdomic.server.Email;
  */
 @ManagedBean
 @SessionScoped
-public class EmailPostavke {
+public class EmailPostavke implements Serializable  {
 
     private String emailServer;
     private String email;

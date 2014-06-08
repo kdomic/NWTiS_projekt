@@ -28,7 +28,7 @@
                     </p:calendar>
                     <p:commandButton id="button1" value="#{i18n.admin_logsRefresh}" action="#{dnevnik.getData}" update="logs"></p:commandButton>
 
-                    <p:dataTable id="logs"
+                    <p:dataTable id="logs" emptyMessage="#{i18n.datatables_empty}"
                                  value="#{dnevnik.logs}" var="log" rowKey="#{log}"
                                  paginator="true" rows="10">
                         <p:column headerText="#{i18n.admin_logsId}">

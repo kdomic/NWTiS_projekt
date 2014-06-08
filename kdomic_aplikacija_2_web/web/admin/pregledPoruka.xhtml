@@ -19,52 +19,49 @@
                 <h:form id="form">
                     <p:selectOneListbox value="#{pregledPoruka.selectedFolder}" style="size:1;width: 200px;" >
                         <f:selectItems value="#{pregledPoruka.folders}" />  
-                        <p:ajax event="change" update=":form:maintable" listener="#{pregledPoruka.showMessages()}"/>
+                        <p:ajax event="change" update=":form:maintable,:form:show" listener="#{pregledPoruka.showMessages()}"/>
                     </p:selectOneListbox>
 
-                    <p:layout style="min-width:400px;min-height:800px;">
-                        <p:layoutUnit position="north" resizable="true" size="250" minSize="40" >
-                            <p:dataTable id="maintable"
-                                         var="m" value="#{pregledPoruka.messages}" rowKey="#{m.id}"
-                                         paginator="true" rows="5" paginatorPosition="top" sortBy="#{m.vrijeme}"
-                                         selection="#{pregledPoruka.selectedMessage}" selectionMode="single">
+                    <p:dataTable id="maintable" emptyMessage="#{i18n.datatables_empty}"
+                                 var="m" value="#{pregledPoruka.messages}" rowKey="#{m.id}"
+                                 paginator="true" rows="5" paginatorPosition="top" sortBy="#{m.vrijeme}"
+                                 selection="#{pregledPoruka.selectedMessage}" selectionMode="single">
 
-                                <p:ajax event="rowSelect" update=":form:show" />
+                        <p:ajax event="rowSelect" update=":form:show" />
 
-                                <p:column headerText="#{i18n.admin_messId}">
-                                    <h:outputText value="#{m.id}" />
-                                </p:column>
+                        <p:column headerText="#{i18n.admin_messId}">
+                            <h:outputText value="#{m.id}" />
+                        </p:column>
 
-                                <p:column headerText="#{i18n.admin_messSender}">
-                                    <h:outputText value="#{m.salje}" />
-                                </p:column>
+                        <p:column headerText="#{i18n.admin_messSender}">
+                            <h:outputText value="#{m.salje}" />
+                        </p:column>
 
-                                <p:column headerText="#{i18n.admin_messSubject}">
-                                    <h:outputText value="#{m.predmet}" />
-                                </p:column>
+                        <p:column headerText="#{i18n.admin_messSubject}">
+                            <h:outputText value="#{m.predmet}" />
+                        </p:column>
 
-                                <p:column headerText="#{i18n.admin_messTime}" sortBy="#{m.vrijeme}">
-                                    <h:outputText value="#{m.vrijeme}" />
-                                </p:column>
+                        <p:column headerText="#{i18n.admin_messTime}" sortBy="#{m.vrijeme}">
+                            <h:outputText value="#{m.vrijeme}" />
+                        </p:column>
 
-                                <p:column headerText="#{i18n.admin_messSize}">
-                                    <h:outputText value="#{m.velicina}" />
-                                </p:column>
+                        <p:column headerText="#{i18n.admin_messSize}">
+                            <h:outputText value="#{m.velicina}" />
+                        </p:column>
 
-                                <p:column>
-                                    <f:facet name="header">#{i18n.admin_messDelete}</f:facet>
-                                    <p:commandButton icon="ui-icon-close" title="Obrisi zapis" actionListener="#{pregledPoruka.deleteMessage(m)}" update="maintable" />
-                                </p:column> 
+                        <p:column>
+                            <f:facet name="header">#{i18n.admin_messDelete}</f:facet>
+                            <p:commandButton icon="ui-icon-close" title="Obrisi zapis" actionListener="#{pregledPoruka.deleteMessage(m)}" update="maintable" />
+                        </p:column> 
 
-                            </p:dataTable>
-                        </p:layoutUnit>
-
-                        <p:layoutUnit position="center" size="250">
-                            <h:panelGrid columns="2" id="show">
-                                <h:outputLabel value="#{pregledPoruka.selectedMessage.sadrzaj}"/>
-                            </h:panelGrid>
-                        </p:layoutUnit>
-                    </p:layout>
+                    </p:dataTable>
+                    
+                    <br/> <hr/> <br/>
+                    
+                    <p:scrollPanel style="width:100%;height:200px" id="show">
+                        <h:outputLabel value="#{pregledPoruka.selectedMessage.sadrzaj}"/>
+                    </p:scrollPanel>
+                    
                 </h:form>
 
             </ui:define>
