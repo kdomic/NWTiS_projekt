@@ -7,7 +7,7 @@
 package org.foi.nwtis.kdomic.data;
 
 /**
- *
+ * Struktura (MODEL) podataka za opis korisničkih podataka
  * @author Krunoslav
  */
 public class Users {

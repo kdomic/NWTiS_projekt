@@ -6,20 +6,18 @@
 package org.foi.nwtis.kdomic.controls.jsp;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.foi.nwtis.kdomic.data.Logs;
-import org.foi.nwtis.kdomic.data.Users;
+import org.foi.nwtis.kdomic.data.WeatherDataSmall;
 import org.foi.nwtis.kdomic.database.Database;
 
 /**
- *  SERVLET koji se brine o opsluživanju sekcije pregledDnevnika.jsp
+ *  SERVLET koji se brine o opsluživanju sekcije index.jsp
  * @author Krunoslav
  */
-public class PregledDnevnika extends HttpServlet {
+public class Index extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,45 +30,31 @@ public class PregledDnevnika extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ;
 
-        String page = request.getParameter("page") == null ? "1" : request.getParameter("page");
+        Boolean first = true;
+        String s = "[";
+        for (WeatherDataSmall wd : Database.getRecentGeoMeteo("2014-05-01", "2016-01-01")) {
+            String text = "<h3>" + wd.getAdress().replaceAll("'", "") + "</h3>";
+            text += "<ul>";
+            text += "<li>Temperature: " + wd.getTemperature() + "</li>";
+            text += "<li>FeelsLike: " + wd.getFeelsLike()+ "</li>";
+            text += "<li>Humidity: " + wd.getHumidity() + "</li>";
+            text += "<li>RainRate: " + wd.getRainRate() + "</li>";
+            text += "<li>WindSpeed: " + wd.getWindSpeed() + "</li>";
+            text += "<li>WindDirection: " + wd.getWindDirection() + "</li>";
+            text += "<li>DewPoint: " + wd.getDewPoint() + "</li>";
+            text += "</ul>";
 
-        Boolean dateCheck = request.getParameter("dateCheck") != null;
-        Boolean userCheck = request.getParameter("userCheck") != null;
-
-        String maxPerPage = request.getParameter("maxPerPage") == null ? request.getParameter("perPage") == null ? "5" : request.getParameter("perPage") : request.getParameter("maxPerPage");
-        String dateStart = request.getParameter("dateStart") == null ? "" : request.getParameter("dateStart");
-        String dateEnd = request.getParameter("dateEnd") == null ? "" : request.getParameter("dateEnd");
-        String userId = request.getParameter("userId") == null ? "" : request.getParameter("userId");
-        
-        Integer maxPage = maxPerPage.equals("svi") ? 0 : (Database.countAllLogsByFilter(page, maxPerPage, dateCheck, dateStart, dateEnd, userCheck, userId)+ Integer.parseInt(maxPerPage)-1)/Integer.parseInt(maxPerPage);
-        request.setAttribute("maxPage", maxPage);
-        
-        if(Integer.parseInt(page)>maxPage){
-            page = "1";
+            if (!first) {
+                s += ",";
+            }
+            s += "['" + text + "'," + wd.getLatitude() + "," + wd.getLongitude() + "," + wd.getAdresaId() + "]";
+            first = false;
         }
-        
-        request.setAttribute("currentPage", page);
-        request.setAttribute("maxPerPage", maxPerPage);
-
-        request.setAttribute("dateCheck", dateCheck ? "checked" : "");
-        request.setAttribute("dateStart", dateStart);
-        request.setAttribute("dateEnd", dateEnd);
-
-        request.setAttribute("userCheck", userCheck ? "checked" : "");
-        request.setAttribute("userId", userId);
-
-        List<Users> users = Database.getUsers();
-        request.setAttribute("getUsers", users);
-
-        List<Logs> l = Database.getAllLogsByFilter(page, maxPerPage, dateCheck, dateStart, dateEnd, userCheck, userId);
-        request.setAttribute("logs", l);
-        
-        
-        
-        
-        
-        request.getRequestDispatcher("./pregledDnevnika.jsp").forward(request, response);
+        s += "]";
+        request.setAttribute("getAllAddress", s);
+        request.getRequestDispatcher("./index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

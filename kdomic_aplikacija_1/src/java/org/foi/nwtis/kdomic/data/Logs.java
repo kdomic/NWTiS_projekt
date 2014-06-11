@@ -7,7 +7,7 @@
 package org.foi.nwtis.kdomic.data;
 
 /**
- *
+ * Struktura (MODEL) podataka za opis dnevničkih
  * @author Krunoslav
  */
 public class Logs {

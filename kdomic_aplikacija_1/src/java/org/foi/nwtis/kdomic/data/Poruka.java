@@ -15,7 +15,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 
 /**
- * Klasa koja opisuje strukturu poruke te omogućava manipulaciju porukama
+ * Struktura (MODEL) podataka za opis poruke te omogućava manipulaciju porukama
  * @author Krunoslav
  */
 

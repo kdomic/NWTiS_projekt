@@ -7,7 +7,6 @@
 package org.foi.nwtis.kdomic.controls.jsp;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,7 @@ import org.foi.nwtis.kdomic.database.Database;
 import org.foi.nwtis.kdomic.rest.client.GoogleMapsKlijent;
 
 /**
- *
+ * SERVLET koji se brine o opsluživanju sekcije dodajAdresu.jsp
  * @author Krunoslav
  */
 public class DodajAdresu extends HttpServlet {

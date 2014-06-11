@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ import org.foi.nwtis.kdomic.listeners.ApplicationListener;
 import org.foi.nwtis.kdomic.rest.client.GoogleMapsKlijent;
 
 /**
- *
+ * Dretva za obradu zaprimljenih soket zahtjeva i odašiljanje odgovora
  * @author Krunoslav
  */
 public class SocketServerClient extends Thread {
@@ -48,7 +49,8 @@ public class SocketServerClient extends Thread {
         ApplicationListener.reciecedCommandNum++;
         boolean sendEmail = false;
         String userId = null;
-        StringBuilder command = new StringBuilder();
+        String command = "";
+        StringBuilder commandRAW = new StringBuilder();
         long threadStart = System.nanoTime();
 
         try (InputStream is = s.getInputStream()) {
@@ -59,9 +61,9 @@ public class SocketServerClient extends Thread {
                 if (token == -1) {
                     break;
                 }
-                command.append((char) token);
+                commandRAW.append((char) token);
             }
-
+            command = URLDecoder.decode(commandRAW.toString(), "UTF-8");
             Matcher m = Pattern.compile("^USER ([^\\s]+); GET ([\\d\\D\\s\\S\\w\\W]*);$").matcher(command);
             if (m.matches()) { 
                 response = get(m.group(2));
@@ -186,9 +188,9 @@ public class SocketServerClient extends Thread {
             email.uspostaviVezu(ApplicationListener.context.getInitParameter("emailServer"), ApplicationListener.context.getInitParameter("emailServisEmail"), ApplicationListener.context.getInitParameter("emailServisPassword"));
             email.posaljiPoruku(ApplicationListener.context.getInitParameter("emailAdminEmail"), ApplicationListener.context.getInitParameter("emailSubject"), poruka, "text/plain", null, ApplicationListener.context.getInitParameter("emailPort"), ApplicationListener.context.getInitParameter("emailInboxDir"));
             ApplicationListener.lastThreadTime = threadTime;
-            Database.insertLog(userId, command.toString(), "" + threadTime);
+            Database.insertLog(userId, command, "" + threadTime);
         } else {
-            Database.insertLog("", command.toString(), "" + threadTime);
+            Database.insertLog("", command, "" + threadTime);
         }
     }
 

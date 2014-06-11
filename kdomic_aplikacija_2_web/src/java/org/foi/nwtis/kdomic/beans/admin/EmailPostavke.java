@@ -6,6 +6,7 @@
 package org.foi.nwtis.kdomic.beans.admin;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -19,7 +20,9 @@ import org.foi.nwtis.kdomic.server.Email;
  */
 @ManagedBean
 @SessionScoped
-public class EmailPostavke implements Serializable  {
+public class EmailPostavke implements Serializable {
+
+    ResourceBundle i18n;
 
     private String emailServer;
     private String email;
@@ -32,16 +35,18 @@ public class EmailPostavke implements Serializable  {
         this.emailServer = ApplicationListener.context.getInitParameter("emailServer");
         this.email = ApplicationListener.context.getInitParameter("emailAdminEmail");
         this.password = ApplicationListener.context.getInitParameter("emailAdminPassword");
+        FacesContext context = FacesContext.getCurrentInstance();
+        i18n = context.getApplication().evaluateExpressionGet(context, "#{i18n}", ResourceBundle.class);
     }
 
     public String connect() {
         if (emailServer.length() == 0 || email.length() == 0 || password.length() == 0) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Greška!", "Niste popounili sva polja"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, i18n.getString("msg_warning"), i18n.getString("msg_emptyFields")));
             return null;
         }
         Email e = new Email();
         if (!e.uspostaviVezu(emailServer, email, password)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška!", "Krivi podaci za prijavu"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, i18n.getString("msg_warning"), i18n.getString("msg_incorrectData")));
             return null;
         }
         return "connect";

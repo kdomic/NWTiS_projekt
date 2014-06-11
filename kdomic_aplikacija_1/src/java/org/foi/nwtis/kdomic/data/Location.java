@@ -2,7 +2,7 @@
 package org.foi.nwtis.kdomic.data;
 
 /**
- * Klasa za opis lokacijskih podataka
+ * Struktura (MODEL) podataka za opis lokacijskih podataka
  * @author Krunoslav
  */
 public class Location {

@@ -16,7 +16,7 @@ import org.foi.nwtis.kdomic.data.Location;
 import org.foi.nwtis.kdomic.database.Database;
 
 /**
- *
+ *  SERVLET koji se brine o opsluživanju sekcije pregledAdresa.jsp
  * @author Krunoslav
  */
 public class PregledAdresa extends HttpServlet {

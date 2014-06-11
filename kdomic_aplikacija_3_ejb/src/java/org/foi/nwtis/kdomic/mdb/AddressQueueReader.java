@@ -5,6 +5,7 @@
  */
 package org.foi.nwtis.kdomic.mdb;
 
+import java.io.UnsupportedEncodingException;
 import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +63,8 @@ public class AddressQueueReader implements MessageListener {
 
         } catch (JMSException ex) {
             Logger.getLogger(EmailQueueReader.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(AddressQueueReader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

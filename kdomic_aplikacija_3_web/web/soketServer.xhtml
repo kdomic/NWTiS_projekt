@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="top">
+                Poziv server socketa iz aplikacije 1
+            </ui:define>
+
+            <ui:define name="left">
+                <h:link value="Početna" outcome="home" /> <br/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <h:selectOneMenu id="selectCommand" value="${soketServer.currentSelcted}">
+                        <f:selectItem itemValue="USER kdomic; GET Varazdin, Pavlinska 2;" itemLabel="USER kdomic; GET Pavlinska ulica 2, Zagreb University, 42000, Varaždin, Croatia;" />
+                        <f:selectItem itemValue="USER kdomic; PASSWD 123456; PAUSE;" itemLabel="USER kdomic; PASSWD 123456; PAUSE;" />
+                        <f:selectItem itemValue="USER kdomic; PASSWD 123456; START;" itemLabel="USER kdomic; PASSWD 123456; START;" />
+                        <f:selectItem itemValue="USER kdomic; PASSWD 123456; STOP;" itemLabel="USER kdomic; PASSWD 123456; STOP;" />
+                        <f:selectItem itemValue="USER kdomic; PASSWD 123456; ADD Novi Marof;" itemLabel="USER kdomic; PASSWD 123456; ADD Novi Marof;" />
+                        <f:selectItem itemValue="USER kdomic; PASSWD 123456; TEST Tar, Croatia;" itemLabel="USER kdomic; PASSWD 123456; TEST Tar, Croatia;" />
+                        <f:selectItem itemValue="USER kdomic; PASSWD 123456; GET Tar, Croatia;" itemLabel="USER kdomic; PASSWD 123456; GET Tar, Croatia;" />
+                        <f:selectItem itemValue="USER kdomic; PASSWD 123456; ADD korisnikNovi; NEWPASSWD klozinka;" itemLabel="USER kdomic; PASSWD 123456; ADD korisnikNovi; NEWPASSWD klozinka;" />
+                    </h:selectOneMenu>
+                    <h:commandButton id="btn1" value="Izvrši" action="#{soketServer.callSelect()}" > 
+                        <f:ajax execute="selectCommand" render=":form:response"></f:ajax>
+                    </h:commandButton>
+                    <hr/>
+                    <h:inputText value="#{soketServer.currentCommand}" id="commandInput"/>
+                    <h:commandButton id="btn2" value="Izvrši" action="#{soketServer.callCommand()}" > 
+                        <f:ajax execute="commandInput" render=":form:response"></f:ajax>
+                    </h:commandButton>
+                    <hr/>
+                    <h:outputLabel value="Odgovor: " />
+                    <h:outputText value="#{soketServer.response}" id="response"  />
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

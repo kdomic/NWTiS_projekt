@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import org.foi.nwtis.kdomic.listeners.ApplicationListener;
 
 /**
- *
+ * Klasa za kreiranje SERVER SOCKETA, on zaprima zahtjeve i prosljeđuje ih dretvi
  * @author Krunoslav
  */
 public class SocketServer extends Thread {

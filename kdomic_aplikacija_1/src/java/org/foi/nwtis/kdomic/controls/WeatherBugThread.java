@@ -21,7 +21,7 @@ import org.foi.nwtis.kdomic.listeners.ApplicationListener;
 import org.foi.nwtis.kdomic.rest.client.WeatherBugKlijent;
 
 /**
- *
+ * Dretva za obradu i preuzmanje metoroloških podataka za sve podatke u bazi
  * @author Krunoslav
  */
 public class WeatherBugThread extends TimerTask {

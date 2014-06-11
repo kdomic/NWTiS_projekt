@@ -2,7 +2,7 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <context-param>
         <param-name>WeatherBugThreadTime</param-name>
-        <param-value>3600</param-value>
+        <param-value>60</param-value>
     </context-param>
     <context-param>
         <param-name>DatabaseConfigFile</param-name>
@@ -67,7 +67,6 @@
     <listener>
         <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
     </listener>
-                  
     <servlet>
         <servlet-name>DodajAdresu</servlet-name>
         <servlet-class>org.foi.nwtis.kdomic.controls.jsp.DodajAdresu</servlet-class>
@@ -89,7 +88,10 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
+    <servlet>
+        <servlet-name>Index</servlet-name>
+        <servlet-class>org.foi.nwtis.kdomic.controls.jsp.Index</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DodajAdresu</servlet-name>
         <url-pattern>/privatno/DodajAdresu</url-pattern>
@@ -105,18 +107,22 @@
     <servlet-mapping>
         <servlet-name>PregledDnevnika</servlet-name>
         <url-pattern>/privatno/PregledDnevnika</url-pattern>
-    </servlet-mapping>   
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GeoMeteoWS</servlet-name>
         <url-pattern>/GeoMeteoWS</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>Index</servlet-name>
+        <url-pattern>/Index</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
+        <welcome-file>Index</welcome-file>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <security-constraint>

@@ -13,7 +13,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.foi.nwtis.kdomic.rest.client.WeatherBugKlijent;
 
 /**
- * Klasa za opis i manipulaciju s meterološkim podacima
+ * Struktura (MODEL) podataka za opis meteoroloških podataka
  * @author Krunoslav
  */
 public class WeatherData {
@@ -123,6 +123,7 @@ public class WeatherData {
         }
     }
 
+    
     public WeatherData(String key, String stationId, int providerId, String iconCode, Float altimeter, Float altimeterRate, Float dewPoint, Float dewPointRate, Float heatIndex, Float humidity, Float humidityRate, Float pressureSeaLevel, Float pressureSeaLevelRate, Float rainDaily, Float rainRate, Float rainMonthly, Float rainYearly, Float snowDaily, Float snowRate, Float snowMonthly, Float snowYearly, Float temperature, Float temperatureRate, Float visibility, Float visibilityRate, Float windChill, Float windSpeed, Float windDirection, Float windSpeedAvg, Float windDirectionAvg, Float windGustHourly, Float windGustDirectionHourly, Float windGustDaily, Float windGustDirectionDaily, Float feelsLike, Date observationTimeLocalStr, Date observationTimeUtcStr, Date windGustTimeLocalHourlyStr, Date windGustTimeUtcHourlyStr, Date windGustTimeLocalDailyStr, Date windGustTimeUtcDailyStr, Date observationTimeAdjustedLocalStr) {
         this.key = key;
         this.stationId = stationId;

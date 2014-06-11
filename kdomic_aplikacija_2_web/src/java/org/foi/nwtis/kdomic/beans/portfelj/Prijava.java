@@ -8,6 +8,7 @@ package org.foi.nwtis.kdomic.beans.portfelj;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -27,6 +28,8 @@ public class Prijava implements Serializable {
     @EJB
     private UsersFacade usersFacade;
 
+    ResourceBundle i18n;
+
     private String username = "kdomic";
     private String password = "123456";
     private Boolean isLoggedIn;
@@ -39,11 +42,13 @@ public class Prijava implements Serializable {
     public Prijava() {
         isLoggedIn = false;
         isAdmin = false;
+        FacesContext context = FacesContext.getCurrentInstance();
+        i18n = context.getApplication().evaluateExpressionGet(context, "#{i18n}", ResourceBundle.class);
     }
 
     public String doLogin() {
         if (username.length() == 0 || password.length() == 0) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Greška!", "Niste popounili sva polja"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, i18n.getString("msg_warning"), i18n.getString("msg_emptyFields")));
             return null;
         }
 
@@ -62,7 +67,7 @@ public class Prijava implements Serializable {
                 return "isUser";
             }
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Greška!", "Neispravni podaci za prijavu"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, i18n.getString("msg_warning"), i18n.getString("msg_incorrectData")));
         return null;
     }
 

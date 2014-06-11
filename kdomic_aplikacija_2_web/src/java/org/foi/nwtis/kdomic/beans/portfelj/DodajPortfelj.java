@@ -8,6 +8,7 @@ package org.foi.nwtis.kdomic.beans.portfelj;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -51,6 +52,8 @@ public class DodajPortfelj implements Serializable {
     @EJB
     private MeteoPortfolioFacade meteoPortfolioFacade;
 
+    ResourceBundle i18n;
+    
     List<Location> locationsFromDatabase;
     List<String> tempLocationsFromDatabase;
 
@@ -103,11 +106,11 @@ public class DodajPortfelj implements Serializable {
         Integer min = Integer.parseInt(ApplicationListener.context.getInitParameter("portfolioAddressNumMin"));
         Integer max = Integer.parseInt(ApplicationListener.context.getInitParameter("portfolioAddressNumMax"));
         if (portfolioName == null || portfolioName.length() == 0) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Greška!", "Niste upisali ime portfolia"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, i18n.getString("msg_warning"), i18n.getString("msg_portfolioName")));
         } else if (selectedLocations.size() < min) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Greška!", "Odabrali ste premalo adresa"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, i18n.getString("msg_warning"), i18n.getString("msg_min")));
         } else if (selectedLocations.size() > max) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Greška!", "Odabrali ste prevoše adresa"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, i18n.getString("msg_warning"), i18n.getString("msg_max")));
         } else {
             MeteoPortfolio mp = new MeteoPortfolio(portfolioName, Prijava.loggdeUser);
             meteoPortfolioFacade.create(mp);

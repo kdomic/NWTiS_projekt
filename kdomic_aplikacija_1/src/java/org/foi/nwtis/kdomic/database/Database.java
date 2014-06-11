@@ -31,7 +31,7 @@ public class Database {
         try {
             BP_Konfiguracija bp = (BP_Konfiguracija) ApplicationListener.bp;
             Class.forName(bp.getDriver_database());
-            Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database(), bp.getUser_username(), bp.getUser_password());
+            Connection connect = DriverManager.getConnection(bp.getServer_database() + bp.getUser_database() + "?useUnicode=true&characterEncoding=utf-8", bp.getUser_username(), bp.getUser_password());
             Statement statement = connect.createStatement();
             int affectedRows = statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
             if (affectedRows == 0) {
@@ -62,7 +62,7 @@ public class Database {
             while (resultSet.next()) {
                 list.add(new Location(resultSet.getString("latitude"), resultSet.getString("longitude"), resultSet.getString("address"), resultSet.getString("idAddress")));
             }
-
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -82,7 +82,7 @@ public class Database {
             if (resultSet.next()) {
                 l = new Location(resultSet.getString("latitude"), resultSet.getString("longitude"), resultSet.getString("address"), resultSet.getString("idAddress"));
             }
-
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -102,7 +102,7 @@ public class Database {
             if (resultSet.next()) {
                 l = new Location(resultSet.getString("latitude"), resultSet.getString("longitude"), resultSet.getString("address"), resultSet.getString("idAddress"));
             }
-
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -123,6 +123,7 @@ public class Database {
             if (resultSet.next()) {
                 id = resultSet.getString("idAddress");
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -144,6 +145,7 @@ public class Database {
             if (resultSet.next()) {
                 data = new WeatherData(resultSet);
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -167,6 +169,7 @@ public class Database {
                 }
                 list.add(new WeatherData(resultSet));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -190,6 +193,7 @@ public class Database {
                 }
                 list.add(new WeatherData(resultSet));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -213,6 +217,7 @@ public class Database {
                 }
                 list.add(new WeatherData(resultSet));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -241,6 +246,7 @@ public class Database {
                 }
                 list.add(new WeatherDataSmall(resultSet));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -293,6 +299,7 @@ public class Database {
                 }
                 list.add(new WeatherData(resultSet));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -315,6 +322,7 @@ public class Database {
             if (resultSet.next()) {
                 num = Integer.parseInt(resultSet.getString("num"));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -334,6 +342,7 @@ public class Database {
             if (resultSet.next()) {
                 return resultSet.getString("id");
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -375,6 +384,7 @@ public class Database {
                 }
                 l.add(Database.getAddressById(resultSet.getString("adresa")));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -407,6 +417,7 @@ public class Database {
                 }
                 l.add(new Logs(resultSet.getString("id"), resultSet.getString("user"), resultSet.getString("action"), resultSet.getString("duration"), resultSet.getString("datetime")));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -431,6 +442,7 @@ public class Database {
                 }
                 users.add(new Users(resultSet.getString("id"), resultSet.getString("username"), resultSet.getString("password"), resultSet.getString("role")));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -483,6 +495,7 @@ public class Database {
                 }
                 l.add(new Logs(resultSet.getString("id"), resultSet.getString("user"), resultSet.getString("action"), resultSet.getString("duration"), resultSet.getString("datetime")));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {
@@ -505,6 +518,7 @@ public class Database {
             if (resultSet.next()) {
                 num = Integer.parseInt(resultSet.getString("num"));
             }
+            connect.close();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());
         } catch (ClassNotFoundException ex) {

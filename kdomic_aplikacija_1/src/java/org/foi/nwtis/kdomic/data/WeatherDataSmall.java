@@ -7,12 +7,11 @@ package org.foi.nwtis.kdomic.data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Struktura (MODEL) podataka za opis meteo podataka uz pridružeme lokacijske podatke
  * @author Krunoslav
  */
 public class WeatherDataSmall {

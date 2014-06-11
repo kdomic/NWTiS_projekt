@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Date;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,11 +16,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.foi.nwtis.kdomic.database.Database;
 
 /**
- *
+ * Ulazno / izlazni filter - provjerava autoriziranost korisnika i vodi dnevničke zapise
  * @author Krunoslav
  */
 public class ApplicationFilter implements Filter {

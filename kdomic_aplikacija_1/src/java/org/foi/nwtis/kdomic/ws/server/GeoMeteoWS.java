@@ -18,7 +18,7 @@ import org.foi.nwtis.kdomic.rest.client.GoogleMapsKlijent;
 import org.foi.nwtis.kdomic.rest.client.WeatherBugKlijent;
 
 /**
- *
+ * SOAP servis
  * @author Krunoslav
  */
 @WebService(serviceName = "GeoMeteoWS")

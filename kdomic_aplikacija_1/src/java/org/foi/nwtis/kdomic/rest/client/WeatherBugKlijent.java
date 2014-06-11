@@ -47,7 +47,7 @@ public class WeatherBugKlijent {
         webResource = webResource.queryParam("verbose", "true");
         webResource = webResource.queryParam("access_token", helper.getAutentikacija().getAccess_token().getToken());
 
-        System.out.println(webResource.getUri());
+        //System.out.println(webResource.getUri());
 
         String odgovor = webResource.request(MediaType.APPLICATION_JSON).get(String.class);
         try {

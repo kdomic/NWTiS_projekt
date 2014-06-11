@@ -18,7 +18,7 @@ import org.foi.nwtis.kdomic.konfiguracije.bp.BP_Konfiguracija;
 import org.foi.nwtis.kdomic.server.SocketServer;
 
 /**
- * Web application lifecycle listener.
+ * Aplikacijski slušač koji priprema kontekst, konfiguracijeke parametre i starta dretve
  *
  * @author Krunoslav
  */

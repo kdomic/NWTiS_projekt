@@ -17,7 +17,7 @@ import org.foi.nwtis.kdomic.data.WeatherData;
 import org.foi.nwtis.kdomic.database.Database;
 
 /**
- *
+ *  SERVLET koji se brine o opsluživanju sekcije meteoPodaci.jsp
  * @author Krunoslav
  */
 public class MeteoPodaci extends HttpServlet {

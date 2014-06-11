@@ -20,6 +20,8 @@
         <link rel="stylesheet" href="css/noscript.css" />
         </noscript>
         <!--[if lte IE 8]><script src="js/html5shiv.js"></script><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+        <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
     </head>
     <body class="homepage">
 
@@ -34,16 +36,40 @@
                 <a href="./privatno/PregledDnevnika" class="fa fa-folder"><span>Pregled dnevnika</span></a>
             </nav>
 
-            <!-- Main -->
+            <!-- Main 45.812864, 15.977506 -->
             <div id="main">
                 <!-- Email -->
                 <article id="email" class="panel">
-                    <ul>
-                        <li><a href="./privatno/dodajAdresu.jsp">Dodaj adresu</a></li>
-                        <li><a href="./privatno/PregledAdresa">PregledAdresa</a></li>
-                        <li><a href="./privatno/MeteoPodaci">MeteoPodaci</a></li>
-                        <li><a href="./privatno/PregledDnevnika">PregledDnevnika</a></li>
-                    </ul>
+                    <div id="map" style="width: 800px; height: 600px;"></div>
+
+                    <script type="text/javascript">
+                        var locations = ${requestScope.getAllAddress};
+
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                            zoom: 7,
+                            center: new google.maps.LatLng(45.812864, 15.977506),
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        });
+
+                        var infowindow = new google.maps.InfoWindow();
+
+                        var marker, i;
+
+                        for (i = 0; i < locations.length; i++) {
+                            marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                map: map
+                            });
+
+                            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                                return function() {
+                                    infowindow.setContent(locations[i][0]);
+                                    infowindow.open(map, marker);
+                                }
+                            })(marker, i));
+                        }
+                    </script>
+
                 </article>
             </div>
 

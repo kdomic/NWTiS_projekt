@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -138,7 +139,22 @@ public class MessageQueueBridge {
         String adminUsername = MessageQueue.getAdminUsername();
         String adminPassword = MessageQueue.getAdminPassword();
         SocketServerClient ssc = new SocketServerClient();
-        return ssc.send("USER " + adminUsername + "; PASSWD " + adminPassword + "; GET " + adress + ";");
+        try {
+            return ssc.send("USER " + adminUsername + "; PASSWD " + adminPassword + "; GET " + adress + ";");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MessageQueueBridge.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public String callServerSocket(String command) {
+        SocketServerClient ssc = new SocketServerClient();
+        try {
+            return ssc.send(command);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MessageQueueBridge.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

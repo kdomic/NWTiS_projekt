@@ -8,8 +8,10 @@ package org.foi.nwtis.kdomic.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import static java.lang.Thread.sleep;
 import java.net.Socket;
+import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.foi.nwtis.kdomic.beans.MessageQueue;
@@ -34,7 +36,7 @@ public class SocketServerClient {
         this.pauseTime = MessageQueue.getPauseTime();
     }
 
-    public String send(String command) {
+    public String send(String command) throws UnsupportedEncodingException {
         Integer counter = 0;
         StringBuilder response = null;
 
@@ -59,6 +61,7 @@ public class SocketServerClient {
             return "ERROR: Server Not Found";
         }
 
+        command = URLEncoder.encode(command, "UTF-8");
         try {
             InputStream is = s.getInputStream();
             OutputStream os = s.getOutputStream();
